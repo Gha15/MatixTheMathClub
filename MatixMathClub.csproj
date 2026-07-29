@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>MatixMathClub</RootNamespace>
+    <AssemblyName>Matix</AssemblyName>
+    <ApplicationIcon>build\icon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Modern Chromium browser control: this is what fixes the old
+         WebBrowser "Script Error / loading error" popups. -->
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2903.40" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- The window icon / splash image must be a Resource so XAML can load it -->
+    <Resource Include="build\icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Ship the web app next to the .exe. Same 'app' folder the Electron
+         build uses, so both versions always run the identical app.html. -->
+    <Content Include="app\app.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="app\logo.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Don't let MSBuild try to compile the Electron/Node files -->
+    <None Remove="main.js" />
+    <None Remove="preload.js" />
+    <None Remove="package.json" />
+    <Compile Remove="dist\**" />
+    <Content Remove="dist\**" />
+    <None Remove="dist\**" />
+    <Compile Remove="node_modules\**" />
+    <Content Remove="node_modules\**" />
+    <None Remove="node_modules\**" />
+  </ItemGroup>
+
+</Project>
