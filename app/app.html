@@ -587,6 +587,11 @@ body.dark .th-bar{background:#2a2a2a}
 body.dark .th-pick input[type=color]{background:#1d1d1d}
 body.dark .site-head{background:#1a1a1a}
 body.dark .site-wrap iframe{background:#fff}
+.ai-keyrow{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.ai-keyrow input{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);font-family:ui-monospace,Menlo,monospace;font-size:.82rem}
+.ai-keyok{font-size:.8rem;color:var(--muted);margin-bottom:12px}
+.ai-keyok .lnk{border:none;background:none;color:var(--brand);font-weight:700;cursor:pointer;text-decoration:underline;font-size:.8rem;padding:0}
+body.dark .ai-keyrow input{background:#1d1d1d}
 </style>
 </head>
 <body>
@@ -1674,6 +1679,7 @@ function toggleTheme(){
 function initTheme(){
   applyTheme(getTheme());
   applyCustomTheme();
+  aiLoadKey();
   refreshBans();
   refreshCustomTheme();
   var b=$('darkToggle');
@@ -2009,8 +2015,29 @@ function openProfileModal(){
    Get one free at https://aistudio.google.com/apikey
    Anyone who opens this app can read this key. Keep it on the free tier.
    ===================================================================== */
-var GEMINI_KEY='AQ.Ab8RN6JV3d_keCowdeQhreIw_oP8ZZ6-3IOQTwio6g2A-6OWOg';
+var GEMINI_KEY='';   /* never hardcode a key here — GitHub blocks the push. Set it in the AI tab. */
 var GEMINI_MODEL='gemini-2.0-flash';
+var AI_KEY_PATH='/config/geminiKey';
+var AI_KEY_LS='matix_gemini_key';
+function aiKeyLocal(){try{return localStorage.getItem(AI_KEY_LS)||'';}catch(e){return '';}}
+function aiKeySetLocal(k){try{if(k)localStorage.setItem(AI_KEY_LS,k);else localStorage.removeItem(AI_KEY_LS);}catch(e){}}
+function aiLoadKey(){
+  GEMINI_KEY=aiKeyLocal();
+  return fbGet(AI_KEY_PATH).then(function(v){
+    var k=(typeof v==='string')?v:(v&&v.key)||'';
+    if(k){GEMINI_KEY=k;aiKeySetLocal(k);}
+    return GEMINI_KEY;
+  }).catch(function(){return GEMINI_KEY;});
+}
+function aiSaveKey(k,cb){
+  GEMINI_KEY=k;aiKeySetLocal(k);
+  fbPut(AI_KEY_PATH,k).then(function(){toast('Key saved — the whole club can use Matix AI now');if(cb)cb(true);})
+   .catch(function(){toast('Saved on this device only','err');if(cb)cb(false);});
+}
+function aiClearKey(){
+  GEMINI_KEY='';aiKeySetLocal('');
+  fbPut(AI_KEY_PATH,null).then(function(){toast('Key removed');});
+}
 
 var AI_LOG=[];
 var AI_TURNS=[];
@@ -2329,10 +2356,18 @@ function renderAI(c){
    +'<div class="ai-head"><div class="ai-orb">\u2728</div><div><b>Matix AI</b>'
    +'<small>Ask for anything in the app \u2014 it can actually do it.</small></div></div>';
   if(!GEMINI_KEY){
-    h+='<div class="ai-warn"><b>\u26A0\uFE0F No API key yet</b>'
-     +'Open <code>app.html</code>, find the line <code>var GEMINI_KEY=\'\';</code> near the top of the script, '
-     +'and paste a Gemini key between the quotes. Get one free at <code>aistudio.google.com/apikey</code>. '
-     +'Remember: anybody who opens the app can read that key, so keep it on the free tier and never put a paid key there.</div>';
+    if(isOwner()){
+      h+='<div class="ai-warn"><b>\U0001F511 Add the club Gemini key</b>'
+       +'Paste your key below. It is stored in your Matix database, not in app.html \u2014 so it never touches GitHub, '
+       +'and every member gets Matix AI without you rebuilding anything. Get one free at <code>aistudio.google.com/apikey</code>.'
+       +'<div class="ai-keyrow"><input id="aiKeyIn" type="password" placeholder="Paste the key here\u2026" autocomplete="off">'
+       +'<button class="btn" id="aiKeySave">Save key</button></div></div>';
+    } else {
+      h+='<div class="ai-warn"><b>\u2728 Matix AI is not switched on yet</b>'
+       +'Ghadi needs to add the club AI key before this tab works. Ask the owner \u2014 it takes about a minute.</div>';
+    }
+  } else if(isOwner()){
+    h+='<div class="ai-keyok">\U0001F511 Club AI key is set. <button class="lnk" id="aiKeyEdit">change or remove</button></div>';
   }
   h+='<div class="ai-scroll" id="aiScroll"></div>';
   if(!AI_LOG.length){
@@ -2342,6 +2377,18 @@ function renderAI(c){
    +'<button class="btn" id="aiGo">Send</button></div></div>';
   c.innerHTML=h;
   aiPaint();
+  var ks=$('aiKeySave');
+  if(ks)ks.onclick=function(){
+    var v=($('aiKeyIn').value||'').trim();
+    if(v.length<20){toast('That does not look like a Gemini key','err');return;}
+    aiSaveKey(v,function(){renderAI(c);});
+  };
+  var ke=$('aiKeyEdit');
+  if(ke)ke.onclick=function(){
+    customConfirm('Remove the club AI key? Matix AI will stop working for everyone until you add a new one.',function(){
+      aiClearKey();renderAI(c);
+    },{icon:'\U0001F511',okText:'Remove key',danger:true});
+  };
   var inp=$('aiInput');
   var fire=function(){
     var v=(inp.value||'').trim();
