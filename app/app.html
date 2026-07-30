@@ -2069,11 +2069,11 @@ function openProfileModal(){
    MATIX AI  \u2014  Gemini with real tools
 
    PASTE YOUR GEMINI API KEY BETWEEN THE QUOTES ON THE NEXT LINE.
-   Get one free at https://aistudio.google.com/apikey
+   Get one free at https://console.groq.com/keys
    Anyone who opens this app can read this key. Keep it on the free tier.
    ===================================================================== */
 var GEMINI_KEY='';   /* never hardcode a key here — GitHub blocks the push. Set it in the AI tab. */
-var GEMINI_MODEL='gemini-2.0-flash';
+var GEMINI_MODEL='gemini-2.0-flash-lite';
 var AI_KEY_PATH='/config/geminiKey';
 var AI_KEY_LS='matix_gemini_key';
 function aiKeyLocal(){try{return localStorage.getItem(AI_KEY_LS)||'';}catch(e){return '';}}
@@ -2100,14 +2100,33 @@ var AI_LOG=[];
 var AI_TURNS=[];
 var AI_BUSY=false;
 
+var AI_MODEL='llama-3.3-70b-versatile';       /* Groq free tier, supports tool calling */
+var AI_MODEL_OPENAI='gpt-4o-mini';
+var AI_MODEL_OR='meta-llama/llama-3.3-70b-instruct';
+function aiProvider(){
+  var k=(GEMINI_KEY||'').trim();
+  if(k.indexOf('gsk_')===0)return 'groq';
+  if(k.indexOf('sk-or-')===0)return 'openrouter';
+  if(k.indexOf('sk-')===0)return 'openai';
+  return 'groq';
+}
 function aiEndpoint(){
-  return 'https://generativelanguage.googleapis.com/v1beta/models/'+GEMINI_MODEL+':generateContent';
+  var p=aiProvider();
+  if(p==='openrouter')return 'https://openrouter.ai/api/v1/chat/completions';
+  if(p==='openai')return 'https://api.openai.com/v1/chat/completions';
+  return 'https://api.groq.com/openai/v1/chat/completions';
+}
+function aiModel(){
+  var p=aiProvider();
+  if(p==='openrouter')return AI_MODEL_OR;
+  if(p==='openai')return AI_MODEL_OPENAI;
+  return AI_MODEL;
 }
 
 /* ---------- the things the AI is allowed to do ---------- */
 var AI_TOOLS=[
-{name:'open_chat',risk:'small',owner:false,desc:'Open the Math Chat tab, optionally with one club member.',params:{person:{type:'string',description:'username to open a chat with, e.g. dahlia'}},req:[],run:function(a,done){openTab({kind:'chat'});if(a.person){var u=String(a.person).toLowerCase().replace(/[^a-z0-9_]/g,'');setTimeout(function(){if(MC.users&&MC.users[u])mcOpen(u);},900);done({ok:true,msg:'Opened your chat with '+u});return;}done({ok:true,msg:'Opened Math Chat'});},say:function(a,r){return r.msg;}},
-{name:'set_colors',risk:'small',owner:false,desc:'Change the app colour theme. Accepts a preset name (matix, ocean, forest, sunset, grape, candy, mint, slate) or hex colours.',params:{preset:{type:'string',description:'preset name'},main:{type:'string',description:'hex colour like #5B46C9'},accent:{type:'string',description:'hex accent colour'}},req:[],run:function(a,done){var t=null;if(a.preset){for(var i=0;i<TH_PRESETS.length;i++)if(TH_PRESETS[i].id===String(a.preset).toLowerCase()||TH_PRESETS[i].n.toLowerCase()===String(a.preset).toLowerCase())t={b:TH_PRESETS[i].b,b2:TH_PRESETS[i].b2,a:TH_PRESETS[i].a,name:TH_PRESETS[i].n};}if(!t&&a.main)t={b:a.main,b2:a.main,a:a.accent||a.main,name:'Custom'};if(!t){done({ok:false,msg:'I do not know that colour theme.'});return;}applyCustomTheme(t);ctStore(t);saveCustomTheme(t);done({ok:true,msg:'Theme set to '+t.name});},say:function(a,r){return r.msg;}},
+{name:'open_chat',risk:'small',owner:false,desc:'Open the Math Chat tab, optionally with one club member.',params:{person:{type:'string',description:'username to open a chat with, e.g. dahlia'}},req:[],run:function(a){openTab({kind:'chat'});if(a.person){var u=String(a.person).toLowerCase().replace(/[^a-z0-9_]/g,'');setTimeout(function(){if(MC.users&&MC.users[u])mcOpen(u);},900);return 'Opened your chat with '+u+'.';}return 'Opened Math Chat.';},say:function(a){return a.person?('Opened your chat with '+String(a.person).toLowerCase()):'Opened Math Chat';}},
+{name:'set_colors',risk:'small',owner:false,desc:'Change the app colour theme. Accepts a preset name (matix, ocean, forest, sunset, grape, candy, mint, slate) or hex colours.',params:{preset:{type:'string',description:'preset name'},main:{type:'string',description:'hex colour like #5B46C9'},accent:{type:'string',description:'hex accent colour'}},req:[],run:function(a){var t=null;if(a.preset){for(var i=0;i<TH_PRESETS.length;i++)if(TH_PRESETS[i].id===String(a.preset).toLowerCase()||TH_PRESETS[i].n.toLowerCase()===String(a.preset).toLowerCase())t={b:TH_PRESETS[i].b,b2:TH_PRESETS[i].b2,a:TH_PRESETS[i].a,name:TH_PRESETS[i].n};}if(!t&&a.main)t={b:a.main,b2:a.main,a:a.accent||a.main,name:'Custom'};if(!t)return 'ERROR: I do not know that colour theme.';applyCustomTheme(t);ctStore(t);saveCustomTheme(t);return 'Theme set to '+t.name+'.';},say:function(a){return 'Changed the colours';}},
 
   {name:'set_theme',risk:'small',owner:false,
    desc:'Switch the app between light and dark mode.',
@@ -2257,104 +2276,83 @@ function aiTool(name){
 }
 function aiDeclarations(){
   return AI_TOOLS.map(function(t){
-    var props={},any=false;
-    for(var k in t.params){props[k]=t.params[k];any=true;}
-    var d={name:t.name,description:t.desc||''};
-    if(any)d.parameters={type:'OBJECT',properties:props,required:t.req||[]};
-    return d;
+    var props={};
+    for(var k in t.params){var p=t.params[k]||{};props[k]={type:String(p.type||'string').toLowerCase(),description:p.description||''};}
+    return {type:'function',function:{name:t.name,description:t.desc||'',parameters:{type:'object',properties:props,required:t.req||[]}}};
   });
 }
 function aiSystem(){
   return 'You are Matix AI, the assistant built into the Matix the Math Club app. '
    +'You are talking to '+ME+(isOwner()?' , who is the owner and can do everything.':' , an ordinary member.')+' '
-   +'You can actually change the app by calling the tools you have been given \u2014 do that instead of telling the user how to do it themselves. '
-   +'When you are asked for a game, write the whole game yourself and call add_game with a complete single-file HTML document: inline CSS and JavaScript, no external files, no libraries, works on a phone and a computer, and it must be a maths game because this is a maths club. '
-   +'Never invent a tool that is not in your list. If a tool returns text starting with ERROR, tell the user plainly what went wrong. '
-   +'Keep replies short and friendly, a couple of sentences, no markdown headings.';
+   +'You can actually change the app by calling the tools you have been given \u2014 always DO the task with a tool instead of explaining how to do it. '
+   +'When asked for a game, write the whole game yourself and call add_game with a complete single-file HTML document: inline CSS and JavaScript, no external files, no libraries, works on a phone and a computer, and it must be a maths game because this is a maths club. '
+   +'Never invent a tool that is not in your list. If a tool result starts with ERROR, tell the user plainly what went wrong. '
+   +'Keep replies short and friendly, one or two sentences, no markdown headings.';
 }
-
-function aiCall(turns){
-  var body={
-    systemInstruction:{parts:[{text:aiSystem()}]},
-    contents:turns,
-    tools:[{functionDeclarations:aiDeclarations()}],
-    generationConfig:{temperature:0.7,maxOutputTokens:8192}
-  };
-  return fetch(aiEndpoint(),{
-    method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':GEMINI_KEY},body:JSON.stringify(body)
-  }).then(function(r){
-    return r.json().then(function(j){return {status:r.status,json:j};});
+function aiCall(){
+  var body={model:aiModel(),messages:[{role:'system',content:aiSystem()}].concat(AI_TURNS),tools:aiDeclarations(),tool_choice:'auto',temperature:0.6,max_tokens:8192};
+  var h={'Content-Type':'application/json','Authorization':'Bearer '+(GEMINI_KEY||'')};
+  if(aiProvider()==='openrouter'){h['HTTP-Referer']='https://matixthemathclub.com';h['X-Title']='Matix';}
+  return fetch(aiEndpoint(),{method:'POST',headers:h,body:JSON.stringify(body)}).then(function(r){
+    return r.json().then(function(j){return {status:r.status,json:j};})['catch'](function(){return {status:r.status,json:{}};});
   });
 }
 function aiErrorText(status,j){
-  var m=(j&&j.error&&j.error.message)||'';
-  if(status===400&&/API key not valid/i.test(m))return 'That API key is not valid. Check the GEMINI_KEY line at the top of app.html.';
-  if(status===403)return 'Google refused the key (403). It may be restricted to certain websites, or the Gemini API is not enabled for it.';
-  if(status===429)return 'You have hit the free-tier rate limit. Wait a minute and try again.';
-  if(status===404)return 'The model "'+GEMINI_MODEL+'" was not found for this key. Open the AI tab settings line GEMINI_MODEL and try gemini-2.5-flash or gemini-flash-latest.';
-  if(status>=500)return 'Google is having a problem right now (error '+status+'). Try again in a moment.';
+  var m=(j&&j.error&&(j.error.message||j.error))||'';m=String(m);
+  if(status===401||/invalid api key|no auth|unauthor|invalid_api_key/i.test(m))return 'That key was rejected (401). Get a free key at console.groq.com/keys and paste it in the key box above.';
+  if(status===404||(/model/i.test(m)&&/(decommission|not found|does not exist|retired)/i.test(m)))return 'The model this key uses is not available ("'+aiModel()+'"). Tell me and I will switch it.';
+  if(status===429)return 'The AI is rate-limiting you (429). The free tier resets in a few seconds \u2014 I will retry automatically.';
+  if(status===403)return 'Access was refused (403). '+(m||'The key may be restricted.');
+  if(status>=500)return 'The AI service is having a problem right now (error '+status+'). Try again in a moment.';
   return m||('Something went wrong (error '+status+').');
 }
 
 function aiSend(text){
   if(AI_BUSY)return;
-  if(!GEMINI_KEY){aiPush({role:'error',text:'No API key yet. Open app.html, find the line that says GEMINI_KEY near the top, and paste your key between the quotes.'});return;}
+  if(!GEMINI_KEY){aiPush({role:'error',text:'No AI key yet. Open this tab as the owner and paste a free Groq key \u2014 get one at console.groq.com/keys.'});return;}
   AI_BUSY=true;
   aiPush({role:'me',text:text});
-  AI_TURNS.push({role:'user',parts:[{text:text}]});
+  AI_TURNS.push({role:'user',content:text});
   aiPush({role:'think'});
   aiStep(0);
 }
-function aiStep(depth){
+function aiStep(depth,retried){
   if(depth>6){aiDropThink();aiPush({role:'error',text:'That turned into too many steps, so I stopped. Try asking for one thing at a time.'});AI_BUSY=false;return;}
-  aiCall(AI_TURNS).then(function(res){
+  aiCall().then(function(res){
     var j=res.json||{};
     if(res.status!==200){
+      if(res.status===429&&!retried){
+        if(aiNote)aiNote('The AI is busy \u2014 retrying in 8s\u2026');
+        setTimeout(function(){aiStep(depth,true);},8000);return;
+      }
       aiDropThink();aiPush({role:'error',text:aiErrorText(res.status,j)});AI_BUSY=false;return;
     }
-    var cand=(j.candidates&&j.candidates[0])||null;
-    if(!cand||!cand.content){
-      aiDropThink();
-      var why=(cand&&cand.finishReason)||'';
-      aiPush({role:'error',text:why==='SAFETY'?'Gemini blocked that one for safety reasons.':'Gemini sent back an empty answer. Try rewording it.'});
-      AI_BUSY=false;return;
-    }
-    AI_TURNS.push(cand.content);
-    var parts=cand.content.parts||[];
-    var calls=[],said='';
-    parts.forEach(function(p){
-      if(p.functionCall)calls.push(p.functionCall);
-      else if(p.text)said+=p.text;
-    });
-    if(!calls.length){
-      aiDropThink();
-      aiPush({role:'ai',text:said||'(nothing to say)'});
-      AI_BUSY=false;return;
-    }
-    if(said.trim()){aiDropThink();aiPush({role:'ai',text:said});aiPush({role:'think'});}
-    aiRunCalls(calls,0,[],function(responses){
-      AI_TURNS.push({role:'user',parts:responses});
-      aiStep(depth+1);
-    });
+    var msg=(j.choices&&j.choices[0]&&j.choices[0].message)||null;
+    if(!msg){aiDropThink();aiPush({role:'error',text:'The AI sent back an empty answer. Try rewording it.'});AI_BUSY=false;return;}
+    AI_TURNS.push(msg);
+    var calls=msg.tool_calls||[];
+    var said=msg.content||'';
+    if(!calls.length){aiDropThink();aiPush({role:'ai',text:said||'(nothing to say)'});AI_BUSY=false;return;}
+    if(said&&said.trim()){aiDropThink();aiPush({role:'ai',text:said});aiPush({role:'think'});}
+    aiRunCalls(calls,0,function(){aiStep(depth+1);});
   })['catch'](function(){
-    aiDropThink();
-    aiPush({role:'error',text:'Could not reach Google at all. Check your internet connection.'});
-    AI_BUSY=false;
+    aiDropThink();aiPush({role:'error',text:'Could not reach the AI service at all. Check your internet connection.'});AI_BUSY=false;
   });
 }
-function aiRunCalls(calls,i,acc,done){
-  if(i>=calls.length){done(acc);return;}
-  var call=calls[i],t=aiTool(call.name),args=call.args||{};
+function aiRunCalls(calls,i,done){
+  if(i>=calls.length){done();return;}
+  var call=calls[i]||{};
+  var fc=call.function||{};
+  var name=fc.name;
+  var args={};
+  try{args=JSON.parse(fc.arguments||'{}');}catch(e){args={};}
+  var t=aiTool(name);
   var next=function(result){
-    acc.push({functionResponse:{name:call.name,response:{result:String(result)}}});
-    aiRunCalls(calls,i+1,acc,done);
+    AI_TURNS.push({role:'tool',tool_call_id:call.id||('call_'+i),name:name,content:String(result)});
+    aiRunCalls(calls,i+1,done);
   };
-  if(!t){next('ERROR: there is no tool called '+call.name+'.');return;}
-  if(t.owner&&!isOwner()){
-    aiNote('Blocked: only the owner can do that',false);
-    next('ERROR: '+ME+' is not the owner, so this was blocked. Tell them to ask Ghadi.');
-    return;
-  }
+  if(!t){next('ERROR: there is no tool called '+name+'.');return;}
+  if(t.owner&&!isOwner()){aiNote('Blocked: only the owner can do that',false);next('ERROR: '+ME+' is not the owner, so this was blocked. Tell them to ask Ghadi.');return;}
   var go=function(){
     var out;
     try{out=t.run(args);}catch(e){next('ERROR: '+(e&&e.message?e.message:'that failed'));return;}
@@ -2367,11 +2365,8 @@ function aiRunCalls(calls,i,acc,done){
   };
   if(t.risk==='big'){
     aiDropThink();
-    customConfirm(t.confirm?t.confirm(args):('Let Matix AI run '+t.name+'?'),function(){
-      aiPush({role:'think'});go();
-    },{icon:'\u2728',okText:'Do it',danger:false,onCancel:function(){
-      next('ERROR: '+ME+' said no, so nothing was changed.');
-    }});
+    customConfirm(t.confirm?t.confirm(args):('Let Matix AI run '+name+'?'),function(){aiPush({role:'think'});go();},
+      {icon:'\u2728',okText:'Do it',danger:false,onCancel:function(){next('ERROR: '+ME+' said no, so nothing was changed.');}});
     return;
   }
   go();
@@ -2415,9 +2410,9 @@ function renderAI(c){
    +'<small>Ask for anything in the app \u2014 it can actually do it.</small></div></div>';
   if(!GEMINI_KEY){
     if(isOwner()){
-      h+='<div class="ai-warn"><b>\U0001F511 Add the club Gemini key</b>'
+      h+='<div class="ai-warn"><b>\U0001F511 Add the club AI key</b>'
        +'Paste your key below. It is stored in your Matix database, not in app.html \u2014 so it never touches GitHub, '
-       +'and every member gets Matix AI without you rebuilding anything. Get one free at <code>aistudio.google.com/apikey</code>.'
+       +'and every member gets Matix AI without you rebuilding anything. Get one free at <code>console.groq.com/keys</code>.'
        +'<div class="ai-keyrow"><input id="aiKeyIn" type="password" placeholder="Paste the key here\u2026" autocomplete="off">'
        +'<button class="btn" id="aiKeySave">Save key</button></div></div>';
     } else {
