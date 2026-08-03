@@ -6,7 +6,7 @@
 <title>Matix — Workspace</title>
 <style>
   :root{
-    --bg:#ffffff;--sidebar:#f7f7f5;--sidebar2:#efeeec;--text:#2c2c2b;--muted:#7d7a75;
+    --bg:#ffffff;--card:#ffffff;--sidebar:#f7f7f5;--sidebar2:#efeeec;--text:#2c2c2b;--muted:#7d7a75;
     --border:#e6e5e3;--hover:#efedeb;--soft:#f9f8f7;
     --brand:#5b46c9;--brand2:#283f71;--accent:#f7a600;--blue:#2783de;--blue-soft:#e5f2fc;
     --green:#46a171;--red:#e56458;--radius:8px;
@@ -338,7 +338,7 @@ body.desktop #gate{top:36px}
 .switch.on:after{transform:translateX(15px)}
 /* ===== dark mode ===== */
 body.dark{
-  --bg:#191919;--sidebar:#202020;--sidebar2:#262626;--text:#e8e6e3;--muted:#9b9894;
+  --bg:#191919;--card:#242424;--sidebar:#202020;--sidebar2:#262626;--text:#e8e6e3;--muted:#9b9894;
   --border:#343434;--hover:#2c2c2c;--soft:#1f1f1f;
   --brand:#8b73ff;--brand2:#7d5cff;--blue-soft:#1d2f42;
   --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.5);
@@ -557,6 +557,9 @@ body.dark .pt-chip.admin{color:#34d399}
 .ai-warn code{background:var(--card);border:1px solid var(--border);padding:2px 6px;border-radius:6px;font-size:.85em}
 body.dark .ai-bub{background:#232323}
 body.dark .ai-msg.me .ai-bub{background:var(--brand)}
+body.dark .ai-warn{background:#1e1e22;border-color:var(--border)}
+body.dark .ai-chip{background:#2a2a2e;border-color:var(--border)}
+body.dark .tb-panel{background:#1e1e22}
 
 /* ---------- Theme customiser / club site / bans / likes ---------- */
 .th-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:14px}
@@ -2103,23 +2106,27 @@ var AI_BUSY=false;
 var AI_MODEL='llama-3.3-70b-versatile';       /* Groq free tier, supports tool calling */
 var AI_MODEL_OPENAI='gpt-4o-mini';
 var AI_MODEL_OR='meta-llama/llama-3.3-70b-instruct';
+var AI_MODEL_GITHUB='gpt-4o-mini';
 function aiProvider(){
   var k=(GEMINI_KEY||'').trim();
   if(k.indexOf('gsk_')===0)return 'groq';
   if(k.indexOf('sk-or-')===0)return 'openrouter';
   if(k.indexOf('sk-')===0)return 'openai';
+  if(k.indexOf('ghp_')===0||k.indexOf('github_pat_')===0||k.indexOf('gho_')===0)return 'github';
   return 'groq';
 }
 function aiEndpoint(){
   var p=aiProvider();
   if(p==='openrouter')return 'https://openrouter.ai/api/v1/chat/completions';
   if(p==='openai')return 'https://api.openai.com/v1/chat/completions';
+  if(p==='github')return 'https://models.inference.ai.azure.com/chat/completions';
   return 'https://api.groq.com/openai/v1/chat/completions';
 }
 function aiModel(){
   var p=aiProvider();
   if(p==='openrouter')return AI_MODEL_OR;
   if(p==='openai')return AI_MODEL_OPENAI;
+  if(p==='github')return AI_MODEL_GITHUB;
   return AI_MODEL;
 }
 
@@ -2166,6 +2173,25 @@ var AI_TOOLS=[
    run:function(){
      return JSON.stringify({user:ME,isOwner:isOwner(),theme:getTheme(),brightness:getBright()});
    }},
+
+  {name:'search_web',risk:'read',owner:false,
+   desc:'Search the internet / Wikipedia for facts, current information, or anything the user asks about.',
+   params:{query:{type:'STRING',description:'what to search for, e.g. "Pythagorean theorem" or "latest AI news"'}},req:['query'],
+   run:function(a){
+     var q=encodeURIComponent(String(a.query||'').slice(0,200));
+     return fetch('https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch='+q+'&srlimit=4&srprop=snippet&format=json&origin=*')
+       .then(function(r){return r.json();})
+       .then(function(d){
+         var sr=(d.query&&d.query.search)||[];
+         if(!sr.length)return 'No results found for: '+a.query;
+         return 'Search results for "'+a.query+'":\n\n'+sr.map(function(item){
+           return item.title+': '+item.snippet.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+         }).join('\n\n');
+       })
+       .catch(function(){return 'Could not reach the search service. Check the internet connection.';});
+   },
+   say:function(a){return 'Searching: '+String(a.query||'');}}
+
 
   {name:'list_games',risk:'read',owner:false,
    desc:'List the games published in the games hub.',
@@ -2285,6 +2311,7 @@ function aiSystem(){
   return 'You are Matix AI, the assistant built into the Matix the Math Club app. '
    +'You are talking to '+ME+(isOwner()?' , who is the owner and can do everything.':' , an ordinary member.')+' '
    +'You can actually change the app by calling the tools you have been given \u2014 always DO the task with a tool instead of explaining how to do it. '
+   +'You have a search_web tool that searches Wikipedia \u2014 use it whenever the user asks about facts, current events, or anything you are not sure about. '
    +'When asked for a game, write the whole game yourself and call add_game with a complete single-file HTML document: inline CSS and JavaScript, no external files, no libraries, works on a phone and a computer, and it must be a maths game because this is a maths club. '
    +'Never invent a tool that is not in your list. If a tool result starts with ERROR, tell the user plainly what went wrong. '
    +'Keep replies short and friendly, one or two sentences, no markdown headings.';
@@ -2398,6 +2425,7 @@ function aiPaint(){
 }
 
 var AI_CHIPS=[
+  'Search the web for Pythagorean theorem',
   'Turn on dark mode',
   'Make me a times tables game',
   'Who has the most points?',
@@ -2407,20 +2435,26 @@ var AI_CHIPS=[
 function renderAI(c){
   var h='<div class="wrap ai-wrap">'
    +'<div class="ai-head"><div class="ai-orb">\u2728</div><div><b>Matix AI</b>'
-   +'<small>Ask for anything in the app \u2014 it can actually do it.</small></div></div>';
+   +'<small>Ask anything \u2014 it can search the web and control the app.</small></div></div>';
   if(!GEMINI_KEY){
     if(isOwner()){
       h+='<div class="ai-warn"><b>\U0001F511 Add the club AI key</b>'
-       +'Paste your key below. It is stored in your Matix database, not in app.html \u2014 so it never touches GitHub, '
-       +'and every member gets Matix AI without you rebuilding anything. Get one free at <code>console.groq.com/keys</code>.'
-       +'<div class="ai-keyrow"><input id="aiKeyIn" type="password" placeholder="Paste the key here\u2026" autocomplete="off">'
-       +'<button class="btn" id="aiKeySave">Save key</button></div></div>';
+       +'Paste a key below \u2014 it is stored in the database, not in app.html, so every member gets AI without a rebuild. '
+       +'<b>Option A \u2014 GitHub (free):</b> sign in to GitHub, go to Settings \u2192 Developer settings \u2192 Personal access tokens, create a token (no scopes needed), and paste it. '
+       +'<b>Option B \u2014 Groq (free):</b> get a key at <code>console.groq.com/keys</code>.'
+       +'<div class="ai-keyrow">'
+       +'<input id="aiKeyIn" type="password" placeholder="Paste key here (ghp_… or gsk_…)\u2026" autocomplete="off">'
+       +'<button class="btn ghost" id="aiGhBtn">\uD83D\uDC19 GitHub</button>'
+       +'<button class="btn" id="aiKeySave">Save</button>'
+       +'</div></div>';
     } else {
       h+='<div class="ai-warn"><b>\u2728 Matix AI is not switched on yet</b>'
        +'Ghadi needs to add the club AI key before this tab works. Ask the owner \u2014 it takes about a minute.</div>';
     }
   } else if(isOwner()){
-    h+='<div class="ai-keyok">\U0001F511 Club AI key is set. <button class="lnk" id="aiKeyEdit">change or remove</button></div>';
+    var prov=aiProvider();
+    var provLabel={groq:'Groq',openai:'OpenAI',openrouter:'OpenRouter',github:'GitHub Models'}[prov]||prov;
+    h+='<div class="ai-keyok">\U0001F511 Club AI key is set ('+esc(provLabel)+' / '+esc(aiModel())+'). <button class="lnk" id="aiKeyEdit">change or remove</button></div>';
   }
   h+='<div class="ai-scroll" id="aiScroll"></div>';
   if(!AI_LOG.length){
@@ -2430,10 +2464,15 @@ function renderAI(c){
    +'<button class="btn" id="aiGo">Send</button></div></div>';
   c.innerHTML=h;
   aiPaint();
+  var ghBtn=$('aiGhBtn');
+  if(ghBtn)ghBtn.onclick=function(){
+    window.open('https://github.com/settings/tokens/new?description=Matix+AI&scopes=');
+    toast('\uD83D\uDC19 Create the token (no scopes needed), copy it, paste it in the box above');
+  };
   var ks=$('aiKeySave');
   if(ks)ks.onclick=function(){
     var v=($('aiKeyIn').value||'').trim();
-    if(v.length<20){toast('That does not look like a Gemini key','err');return;}
+    if(v.length<20){toast('That does not look like a valid key','err');return;}
     aiSaveKey(v,function(){renderAI(c);});
   };
   var ke=$('aiKeyEdit');
