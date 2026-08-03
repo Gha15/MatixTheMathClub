@@ -2326,10 +2326,17 @@ function aiCall(){
 }
 function aiErrorText(status,j){
   var m=(j&&j.error&&(j.error.message||j.error))||'';m=String(m);
-  if(status===401||/invalid api key|no auth|unauthor|invalid_api_key/i.test(m))return 'That key was rejected (401). Get a free key at console.groq.com/keys and paste it in the key box above.';
+  var prov=aiProvider();
+  if(status===401||/invalid api key|no auth|unauthor|invalid_api_key/i.test(m)){
+    if(prov==='github')return 'GitHub rejected the token (401). Make sure you created a fine-grained token at github.com/settings/tokens?type=beta with the "Models" read permission. Classic tokens without scopes do not work for GitHub Models.';
+    return 'That key was rejected (401). Get a free key at console.groq.com/keys and paste it in the key box above.';
+  }
+  if(status===403){
+    if(prov==='github')return 'GitHub refused access (403). The token needs the "Models" read permission — go to github.com/settings/tokens?type=beta, edit the token, and add Models read access.';
+    return 'Access was refused (403). '+(m||'The key may be restricted.');
+  }
   if(status===404||(/model/i.test(m)&&/(decommission|not found|does not exist|retired)/i.test(m)))return 'The model this key uses is not available ("'+aiModel()+'"). Tell me and I will switch it.';
   if(status===429)return 'The AI is rate-limiting you (429). The free tier resets in a few seconds \u2014 I will retry automatically.';
-  if(status===403)return 'Access was refused (403). '+(m||'The key may be restricted.');
   if(status>=500)return 'The AI service is having a problem right now (error '+status+'). Try again in a moment.';
   return m||('Something went wrong (error '+status+').');
 }
@@ -2439,11 +2446,11 @@ function renderAI(c){
   if(!GEMINI_KEY){
     if(isOwner()){
       h+='<div class="ai-warn"><b>\U0001F511 Add the club AI key</b>'
-       +'Paste a key below \u2014 it is stored in the database, not in app.html, so every member gets AI without a rebuild. '
-       +'<b>Option A \u2014 GitHub (free):</b> sign in to GitHub, go to Settings \u2192 Developer settings \u2192 Personal access tokens, create a token (no scopes needed), and paste it. '
-       +'<b>Option B \u2014 Groq (free):</b> get a key at <code>console.groq.com/keys</code>.'
+       +'Paste a key below \u2014 stored in the database, not app.html, so every member gets AI without a rebuild.<br><br>'
+       +'<b>Option A \u2014 Groq (easiest, free):</b> sign up at <code>console.groq.com/keys</code>, create an API key (starts with <code>gsk_</code>), paste it.<br>'
+       +'<b>Option B \u2014 GitHub Models (free):</b> create a fine-grained token at github.com/settings/tokens?type=beta, enable the <b>Models read</b> permission, copy the token (starts with <code>github_pat_</code>).'
        +'<div class="ai-keyrow">'
-       +'<input id="aiKeyIn" type="password" placeholder="Paste key here (ghp_… or gsk_…)\u2026" autocomplete="off">'
+       +'<input id="aiKeyIn" type="password" placeholder="Paste key here (gsk_… or github_pat_…)\u2026" autocomplete="off">'
        +'<button class="btn ghost" id="aiGhBtn">\uD83D\uDC19 GitHub</button>'
        +'<button class="btn" id="aiKeySave">Save</button>'
        +'</div></div>';
@@ -2466,8 +2473,8 @@ function renderAI(c){
   aiPaint();
   var ghBtn=$('aiGhBtn');
   if(ghBtn)ghBtn.onclick=function(){
-    window.open('https://github.com/settings/tokens/new?description=Matix+AI&scopes=');
-    toast('\uD83D\uDC19 Create the token (no scopes needed), copy it, paste it in the box above');
+    window.open('https://github.com/settings/tokens?type=beta');
+    toast('\uD83D\uDC19 Click "Generate new token", enable the Models read permission, then copy and paste the token here');
   };
   var ks=$('aiKeySave');
   if(ks)ks.onclick=function(){
