@@ -68,6 +68,14 @@
   .nav-item .del{opacity:0;border:none;background:transparent;color:var(--muted);border-radius:5px;font-size:.85rem;padding:2px 5px}
   .nav-item:hover .del{opacity:1}
   .nav-item .del:hover{background:#fff;color:var(--red)}
+  .nav-group{margin-bottom:2px}
+  .nav-chev{border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:.65rem;padding:2px 6px;flex-shrink:0;transform:rotate(90deg);transition:transform .12s}
+  .nav-chev.collapsed{transform:rotate(0deg)}
+  .nav-chev:hover{color:var(--text)}
+  .nav-body{display:flex;flex-direction:column;gap:1px;padding-left:14px}
+  .nav-body.hide{display:none}
+  .nav-lbl.nav-lblclick{cursor:pointer}
+  .nav-newchat{color:var(--brand);font-weight:600}
   .sb-foot{border-top:1px solid var(--border);padding:8px;display:flex;align-items:center;gap:9px}
   .avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#a5b4fc,#c4b5fd);color:#312e81;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;flex-shrink:0;background-size:cover;background-position:center}
   .sb-foot .u{flex:1;min-width:0}
@@ -259,6 +267,11 @@ body.dark{background:linear-gradient(180deg,#191919,#141414)}
 .u-card:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(40,63,113,.12)}
 .u-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;overflow:hidden;flex-shrink:0}
 .u-avatar.img,.u-hero-av.img{background-size:cover;background-position:center;background-repeat:no-repeat;font-size:0;color:transparent}
+.av-wrap{position:relative;display:inline-flex;flex-shrink:0}
+.av-badge{position:absolute;left:-3px;bottom:-3px;width:16px;height:16px;border-radius:50%;background:var(--card);box-shadow:0 0 0 2px var(--card);display:flex;align-items:center;justify-content:center}
+.av-badge svg{width:14px;height:14px;display:block}
+.u-hero .av-badge{width:22px;height:22px;left:-2px;bottom:-2px}
+.u-hero .av-badge svg{width:19px;height:19px}
 .u-contrib{display:flex;flex-direction:column;gap:8px}
 .bug{display:flex;gap:12px;padding:14px;border:1px solid var(--border);border-radius:12px;margin-bottom:10px;background:var(--soft)}
 .bug .vote{display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0}
@@ -555,11 +568,47 @@ body.dark .pt-chip.admin{color:#34d399}
 .ai-warn{border:1px solid var(--border);border-radius:12px;background:var(--soft);padding:14px 16px;font-size:.86rem;line-height:1.6;margin-bottom:14px}
 .ai-warn b{display:block;margin-bottom:5px}
 .ai-warn code{background:var(--card);border:1px solid var(--border);padding:2px 6px;border-radius:6px;font-size:.85em}
+.ai-src{border:1px solid var(--border);border-radius:10px;background:var(--soft);padding:7px 12px;margin:8px 0 8px 38px;font-size:.8rem}
+.ai-src summary{cursor:pointer;color:var(--muted);list-style:none;display:flex;align-items:center;gap:6px}
+.ai-src summary::-webkit-details-marker{display:none}
+.ai-src summary:before{content:'\25B8';display:inline-block;transition:transform .12s}
+.ai-src[open] summary:before{transform:rotate(90deg)}
+.ai-src-body{white-space:pre-wrap;overflow-wrap:anywhere;margin-top:8px;color:var(--text);max-height:260px;overflow:auto;font-size:.82rem}
+.ai-files{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ai-file{border:1px solid var(--border);border-radius:8px;background:var(--soft);padding:0;font-size:.78rem;max-width:260px}
+.ai-file summary{cursor:pointer;list-style:none;padding:4px 9px;display:flex;align-items:center;gap:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ai-file summary::-webkit-details-marker{display:none}
+.ai-file-body{white-space:pre-wrap;overflow-wrap:anywhere;padding:0 9px 8px;max-height:200px;overflow:auto;font-size:.78rem;color:var(--text)}
+.ai-msg.me .ai-file,.ai-msg.me .ai-file summary{color:#fff;border-color:rgba(255,255,255,.35)}
+.ai-attach-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.ai-attach-chip{display:flex;align-items:center;gap:6px;border:1px solid var(--border);background:var(--soft);border-radius:999px;padding:4px 8px 4px 12px;font-size:.78rem}
+.ai-attach-chip button{border:none;background:none;color:var(--muted);cursor:pointer;font-size:.95rem;line-height:1;padding:0 2px}
+.ai-ib{border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:10px;width:42px;height:46px;font-size:1.05rem;cursor:pointer;flex-shrink:0}
+.ai-ib:hover{border-color:var(--brand)}
 body.dark .ai-bub{background:#232323}
 body.dark .ai-msg.me .ai-bub{background:var(--brand)}
 body.dark .ai-warn{background:#1e1e22;border-color:var(--border)}
 body.dark .ai-chip{background:#2a2a2e;border-color:var(--border)}
+body.dark .ai-src,body.dark .ai-file{background:#1e1e22;border-color:var(--border)}
 body.dark .tb-panel{background:#1e1e22}
+
+/* ---------- private: to-do + notes ---------- */
+.pv-head{margin-bottom:16px}
+.pv-head h2{margin:0 0 4px;font-size:1.2rem}
+.pv-head small{color:var(--muted)}
+.pv-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:720px){.pv-cols{grid-template-columns:1fr}}
+.pv-col{border:1px solid var(--border);border-radius:14px;background:var(--card);padding:14px}
+.pv-colhead{font-weight:700;margin-bottom:10px}
+.pv-add{display:flex;gap:8px;margin-bottom:10px}
+.pv-add input{flex:1;border:1px solid var(--border);border-radius:10px;padding:9px 11px;font:inherit;font-size:.88rem;background:var(--soft);color:var(--text)}
+.pv-list{display:flex;flex-direction:column;gap:6px;max-height:420px;overflow:auto}
+.pv-item{display:flex;align-items:center;justify-content:space-between;gap:8px;border:1px solid var(--border);border-radius:10px;padding:8px 10px;font-size:.86rem;background:var(--soft)}
+.pv-item label{display:flex;align-items:center;gap:8px;flex:1;cursor:pointer}
+.pv-item.done span{text-decoration:line-through;color:var(--muted)}
+.pv-del{border:none;background:none;color:var(--muted);cursor:pointer;font-size:.85rem}
+.pv-del:hover{color:#e5484d}
+.pv-empty{color:var(--muted);font-size:.85rem;padding:8px 2px}
 
 /* ---------- Theme customiser / club site / bans / likes ---------- */
 .th-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:14px}
@@ -586,6 +635,8 @@ body.dark .tb-panel{background:#1e1e22}
 .ai-keyrow input{flex:1;min-width:200px;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--card);color:var(--text);font-family:ui-monospace,Menlo,monospace;font-size:.82rem}
 .ai-keyok{font-size:.8rem;color:var(--muted);margin-bottom:12px}
 .ai-keyok .lnk{border:none;background:none;color:var(--brand);font-weight:700;cursor:pointer;text-decoration:underline;font-size:.8rem;padding:0}
+.ai-head .lnk{border:none;background:none;color:var(--muted);cursor:pointer;font-size:.78rem;padding:4px 8px;flex-shrink:0;white-space:nowrap}
+.ai-head .lnk:hover{color:var(--brand)}
 body.dark .ai-keyrow input{background:#1d1d1d}
 
 /* ---------- Math Chat ---------- */
@@ -613,6 +664,20 @@ body.dark .ai-keyrow input{background:#1d1d1d}
 .mc-top .mc-av{width:36px;height:36px}
 .mc-tn{font-weight:800;font-size:.95rem;display:flex;align-items:center;gap:7px}
 .mc-st{font-size:.72rem;color:var(--muted)}
+.mc-callbtn{border:none;background:var(--soft);color:var(--brand);width:38px;height:38px;border-radius:50%;font-size:1.05rem;cursor:pointer;margin-left:auto;flex-shrink:0}
+.mc-callbtn:hover{background:var(--hover)}
+.call-ov{position:fixed;inset:0;background:rgba(10,10,15,.92);z-index:9000;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;gap:16px}
+.call-who{font-size:1.15rem;font-weight:700;text-align:center;padding:0 20px}
+.call-remote{width:min(640px,88vw);aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:#111;position:relative}
+.call-remote video{width:100%;height:100%;object-fit:cover}
+.call-local{position:absolute;width:120px;height:90px;right:12px;bottom:12px;border-radius:10px;overflow:hidden;border:2px solid rgba(255,255,255,.5);background:#000}
+.call-local video{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+.call-btns{display:flex;gap:14px;margin-top:4px}
+.call-btn{width:56px;height:56px;border-radius:50%;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.call-btn:hover{background:rgba(255,255,255,.24)}
+.call-btn.hangup{background:#e5484d}
+.call-btn.hangup:hover{background:#c53a3e}
+.call-btn.off{background:rgba(229,72,77,.85)}
 .mc-st.on{color:#22c55e;font-weight:700}
 .mc-back{display:none;border:none;background:transparent;color:var(--text);font-size:1.1rem;cursor:pointer;padding:2px 6px}
 .mc-msgs{flex:1;overflow-y:auto;padding:18px 18px 8px;display:flex;flex-direction:column;gap:3px}
@@ -952,27 +1017,111 @@ var STATIC=[
   {kind:'users',icon:'👥',name:'Users'},
   {kind:'bugs',icon:'🐞',name:'Bugs'}
 ];
+var NAV_COLLAPSE={};
+(function(){try{NAV_COLLAPSE=JSON.parse(localStorage.getItem('matix_nav_collapse')||'{}');}catch(e){NAV_COLLAPSE={};}})();
+function navIsCollapsed(id){return !!NAV_COLLAPSE[id];}
+function navToggle(id){
+  NAV_COLLAPSE[id]=!NAV_COLLAPSE[id];
+  try{localStorage.setItem('matix_nav_collapse',JSON.stringify(NAV_COLLAPSE));}catch(e){}
+  var body=document.querySelector('.nav-body[data-grp-body="'+id+'"]');
+  var chev=document.querySelector('.nav-chev[data-grp="'+id+'"]');
+  if(body)body.classList.toggle('hide',NAV_COLLAPSE[id]);
+  if(chev)chev.classList.toggle('collapsed',NAV_COLLAPSE[id]);
+}
 function renderNav(){
   var nav=$('nav');nav.innerHTML='';
-  STATIC.forEach(function(s){
-    var it=el('div','nav-item','<span class="ic">'+s.icon+'</span><span class="nm">'+s.name+'</span>');
+  function chevBtn(id){var b=el('button','nav-chev'+(navIsCollapsed(id)?' collapsed':''),'\u25B8');b.dataset.grp=id;b.title='Expand/collapse';b.onclick=function(e){e.stopPropagation();navToggle(id);};return b;}
+  function bodyWrap(id){var d=el('div','nav-body'+(navIsCollapsed(id)?' hide':''));d.dataset.grpBody=id;return d;}
+  function plainItem(s){
+    var it=el('div','nav-item','<span class="ic">'+s.icon+'</span><span class="nm">'+esc(s.name)+'</span>');
     it.dataset.kind=s.kind;
-    it.onclick=function(){openTab({kind:s.kind});};
-    nav.appendChild(it);
-  });
-  if(isOwner()){var ol=el('div','nav-lbl');ol.innerHTML='<span>Owner</span>';nav.appendChild(ol);OWNER_SECTIONS.forEach(function(s){var oi=el('div','nav-item','<span class="ic">'+s.icon+'</span><span class="nm">'+s.name+'</span>');oi.dataset.kind=s.kind;oi.onclick=function(){openTab({kind:s.kind});};nav.appendChild(oi);});}
-  var lbl=el('div','nav-lbl');lbl.innerHTML='<span>App Pages</span>';
+    it.onclick=s.external?function(){window.open(s.external,'_blank');}:function(){openTab({kind:s.kind});};
+    return it;
+  }
+
+  /* ---- Home: header + catch-all body ---- */
+  var homeS=findSection('home')||{icon:'🏠',name:'Home'};
+  var homeGrp=el('div','nav-group');
+  var homeHead=el('div','nav-item nav-grouphead','<span class="ic">'+homeS.icon+'</span><span class="nm">'+homeS.name+'</span>');
+  homeHead.dataset.kind='home';
+  homeHead.onclick=function(){openTab({kind:'home'});};
+  homeHead.appendChild(chevBtn('home'));
+  homeGrp.appendChild(homeHead);
+  var homeBody=bodyWrap('home');
+  ['games','ideas','theme','messages','bugs'].forEach(function(k){var s=findSection(k);if(s)homeBody.appendChild(plainItem(s));});
+  homeGrp.appendChild(homeBody);
+  nav.appendChild(homeGrp);
+
+  /* ---- Matix AI Chats: header opens most-recent/new chat + dynamic chat list ---- */
+  var aiGrp=el('div','nav-group');
+  var aiHead=el('div','nav-item nav-grouphead','<span class="ic">✨</span><span class="nm">Matix AI Chats</span>');
+  aiHead.dataset.kind='ai';
+  aiHead.onclick=function(){openTab({kind:'ai'});};
+  aiHead.appendChild(chevBtn('ai'));
+  aiGrp.appendChild(aiHead);
+  var aiBody=bodyWrap('ai');aiBody.id='aiChatsList';
+  aiGrp.appendChild(aiBody);
+  nav.appendChild(aiGrp);
+  loadAiChatsNav();
+
+  /* ---- Private: single page ---- */
+  nav.appendChild(plainItem({kind:'private',icon:'🔒',name:'Private'}));
+
+  /* ---- Points and Lessons: non-navigating label + body ---- */
+  var plGrp=el('div','nav-group');
+  var plLbl=el('div','nav-lbl nav-lblclick');plLbl.innerHTML='<span>Points and Lessons</span>';
+  plLbl.appendChild(chevBtn('plns'));
+  plLbl.onclick=function(){navToggle('plns');};
+  plGrp.appendChild(plLbl);
+  var plBody=bodyWrap('plns');
+  ['points','users','lessons'].forEach(function(k){var s=findSection(k);if(s)plBody.appendChild(plainItem(s));});
+  plBody.appendChild(plainItem({kind:'exercises',icon:'✏️',name:'Exercises',external:'https://matixthemathclub.com/lessons/exercises/'}));
+  plGrp.appendChild(plBody);
+  nav.appendChild(plGrp);
+
+  /* ---- Math Chat: single page ---- */
+  var chatS=findSection('chat')||{icon:'💬',name:'Math Chat'};
+  nav.appendChild(plainItem(chatS));
+
+  /* ---- App Pages: dynamic, hidden entirely when empty for non-owners ---- */
+  var lbl=el('div','nav-lbl');lbl.id='appPagesLbl';lbl.innerHTML='<span>App Pages</span>';
   if(isOwner()){var add=el('button',null,'+');add.title='New page';add.onclick=function(e){e.stopPropagation();openNewPageModal();};lbl.appendChild(add);}
   nav.appendChild(lbl);
   var listWrap=el('div');listWrap.id='pagesList';nav.appendChild(listWrap);
   loadCustomPages();
+
+  /* ---- Owner: kept last ---- */
+  if(isOwner()){var ol=el('div','nav-lbl');ol.innerHTML='<span>Owner</span>';nav.appendChild(ol);OWNER_SECTIONS.forEach(function(s){nav.appendChild(plainItem(s));});}
+}
+function loadAiChatsNav(){
+  loadAiChats().then(function(){
+    var w=$('aiChatsList');if(!w)return;
+    var list=aiChatList();
+    w.innerHTML='<div class="nav-item nav-newchat" id="navNewChat"><span class="ic">➕</span><span class="nm">New chat</span></div>'
+      +(list.length?'':'<div style="padding:6px 8px;font-size:.8rem;color:var(--muted)">No chats yet \u2014 start one!</div>');
+    list.forEach(function(chat){
+      var it=el('div','nav-item','<span class="ic">✨</span><span class="nm">'+esc(chat.title)+'</span>');
+      it.dataset.chatid=chat.id;
+      it.onclick=function(){openTab({kind:'ai',refId:chat.id});};
+      var d=el('button','del','×');d.title='Delete chat';
+      d.onclick=function(e){e.stopPropagation();customConfirm('Delete this chat? This cannot be undone.',function(){aiChatDelete(chat.id,function(){closeTabsFor('ai',chat.id);loadAiChatsNav();});});};
+      it.appendChild(d);
+      w.appendChild(it);
+    });
+    var nc=$('navNewChat');
+    if(nc)nc.onclick=function(){aiChatNew().then(function(id){if(id)openTab({kind:'ai',refId:id});loadAiChatsNav();});};
+    highlightNav();
+  });
 }
 function loadCustomPages(){
   fbGet('/apppages').then(function(o){
     CUSTOM_PAGES=o||{};
-    var w=$('pagesList');if(!w)return;w.innerHTML='';
+    var w=$('pagesList');var lbl=$('appPagesLbl');if(!w)return;w.innerHTML='';
     var keys=Object.keys(CUSTOM_PAGES).filter(function(k){return !CUSTOM_PAGES[k].searchOnly;}).sort(function(a,b){return (CUSTOM_PAGES[a].at||0)-(CUSTOM_PAGES[b].at||0);});
-    if(!keys.length){w.innerHTML='<div style="padding:6px 8px;font-size:.8rem;color:var(--muted)">'+(isOwner()?'No pages yet — click + to add one.':'No pages yet.')+'</div>';}
+    var showSection=keys.length>0||isOwner();
+    if(lbl)lbl.style.display=showSection?'':'none';
+    w.style.display=showSection?'':'none';
+    if(!keys.length&&isOwner()){w.innerHTML='<div style="padding:6px 8px;font-size:.8rem;color:var(--muted)">No pages yet — click + to add one.</div>';}
     keys.forEach(function(k){
       var p=CUSTOM_PAGES[k];
       var it=el('div','nav-item','<span class="ic">'+(p.icon||'📄')+'</span><span class="nm">'+esc(p.name||'Untitled')+'</span>');
@@ -989,6 +1138,7 @@ function highlightNav(){
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
   if(!t)return;
   if(t.kind==='page'){var n=document.querySelector('.nav-item[data-pageid="'+t.refId+'"]');if(n)n.classList.add('active');}
+  else if(t.kind==='ai'&&t.refId){var n3=document.querySelector('.nav-item[data-chatid="'+t.refId+'"]');if(n3)n3.classList.add('active');}
   else{var n2=document.querySelector('.nav-item[data-kind="'+t.kind+'"]');if(n2)n2.classList.add('active');}
 }
 
@@ -1000,11 +1150,17 @@ function activeTab(){for(var i=0;i<TABS.length;i++)if(TABS[i].id===ACTIVE)return
 function tabMeta(spec){
   if(spec.kind==='page'){var p=CUSTOM_PAGES[spec.refId]||{};return {icon:p.icon||'📄',title:p.name||'Page'};}
   if(spec.kind==='game'){return {icon:'🎮',title:spec.title||'Game'};}
+  if(spec.kind==='ai'&&spec.refId){var ac=AI_CHATS_CACHE[spec.refId]||{};return {icon:'✨',title:ac.title||'Matix AI'};}
+  if(spec.kind==='private'){return {icon:'🔒',title:'Private'};}
   var s=findSection(spec.kind)||{icon:'📄',name:'Page'};
   return {icon:s.icon,title:s.name};
 }
 function sameRef(a,b){return a.kind===b.kind && (a.refId||'')===(b.refId||'');}
 function openTab(spec){
+  if(spec.kind==='ai'&&!spec.refId){
+    aiChatOpenOrNew(function(id){if(id)openTab({kind:'ai',refId:id});});
+    return;
+  }
   for(var i=0;i<TABS.length;i++){if(sameRef(TABS[i],spec)){ACTIVE=TABS[i].id;drawTabs();renderContent();return;}}
   var m=tabMeta(spec);
   var t={id:tabSeq++,kind:spec.kind,refId:spec.refId||null,title:m.title,icon:m.icon};
@@ -1067,7 +1223,7 @@ function renderContent(){
   if(t.kind==='messages')return renderMessages(c);
   if(t.kind==='lessons')return renderLessons(c);
   if(t.kind==='points')return renderPoints(c);
-  if(t.kind==='ai')return renderAI(c);
+  if(t.kind==='ai')return renderAI(c,t.refId);
   if(t.kind==='theme')return renderTheme(c);
   if(t.kind==='chat')return renderChat(c);
   if(t.kind==='changelog')return renderChangelog(c);
@@ -1075,6 +1231,7 @@ function renderContent(){
   if(t.kind==='bugs')return renderBugs(c);
   if(t.kind==='page')return renderCustomPage(c,t.refId);
   if(t.kind==='game')return renderGamePlay(c,t.refId);
+  if(t.kind==='private')return renderPrivate(c);
 }
 $('menuToggle').onclick=function(){$('sidebar').classList.toggle('open');};
 
@@ -1481,10 +1638,14 @@ function profileImg(pr){
   if(/^https?:\/\//i.test(v))return v;
   return '';
 }
+/* the SVG for the profile badge reward — same graphic used on matixthemathclub.com */
+var BADGE_SVG='<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M16 30 10 44 16 41.5 20 45 18 31Z" fill="#6366f1"/><path d="M32 30 38 44 32 41.5 28 45 30 31Z" fill="#10b981"/><circle cx="24" cy="20" r="16" fill="#818cf8"/><circle cx="24" cy="20" r="12.5" fill="#0f172a"/><path d="M24 11.5l2.47 5.01 5.53.8-4 3.9.94 5.5L24 23.9l-4.94 2.6.94-5.5-4-3.9 5.53-.8L24 11.5Z" fill="#f59e0b"/></svg>';
+function badgeHtml(hasBadge){return hasBadge?('<span class="av-badge" title="Unlocked the profile badge">'+BADGE_SVG+'</span>'):'';}
 function avatarHtml(u,i,cls){
   i=i||{};var c=cls||'u-avatar';
-  if(i.img)return '<div class="'+c+' img" style="background-image:url('+esc(i.img)+')" title="@'+esc(u)+'"></div>';
-  return '<div class="'+c+'">'+(i.emoji?esc(i.emoji):esc(initials(u)))+'</div>';
+  var inner=i.img?('<div class="'+c+' img" style="background-image:url('+esc(i.img)+')" title="@'+esc(u)+'"></div>'):('<div class="'+c+'">'+(i.emoji?esc(i.emoji):esc(initials(u)))+'</div>');
+  if(!i.hasBadge)return inner;
+  return '<span class="av-wrap">'+inner+badgeHtml(true)+'</span>';
 }
 var USERS_CACHE=null;
 function loadUsersData(){
@@ -1502,7 +1663,7 @@ function loadUsersData(){
     Object.keys(map).forEach(function(u){
       var p=profiles[u]||{};var e=map[u];
       e.role=roles[u]||(e.builtin?'member':'user');
-      e.bio=p.bio||p.about||'';e.emoji=safeEmoji(p.emoji||p.avatar);e.img=profileImg(p);
+      e.bio=p.bio||p.about||'';e.emoji=safeEmoji(p.emoji||p.avatar);e.img=profileImg(p);e.hasBadge=!!p.hasBadge;
       e.lessons=[];e.ideas=[];e.memes=0;e.comments=[];
       e.points=(points[u]&&(points[u].total!=null?points[u].total:points[u]))||0;
       if(typeof e.points!=='number')e.points=0;
@@ -1962,14 +2123,23 @@ function ptDecide(id,ok,btn){
   };
   fbPatch('/point_requests/'+id,{status:ok?'approved':'denied',decidedBy:ME,decidedAt:Date.now()})
    .then(function(){
-     if(!ok||r.reward){done();return;}
+     if(!ok){done();return;}
      var u=r.targetUser,next=(r.amount==='reset')?0:Math.max(0,ptScore(u)+Number(r.amount||0));
      fbPut('/points/'+encodeURIComponent(u),next).then(function(){
        PT.points[u]=next;
-       ptNotify(u,'\u2B50 Your points changed','You are now on '+next+' points.');
+       if(r.reward){
+         ptGrantReward(u,r.reward);
+         ptNotify(u,'\U0001F381 Reward unlocked','You spent points on \u201C'+r.reward+'\u201D \u2014 enjoy!');
+       } else {
+         ptNotify(u,'\u2B50 Your points changed','You are now on '+next+' points.');
+       }
        done();
      })['catch'](function(){toast('Approved, but the points did not save.','err');if(btn)btn.disabled=false;});
    })['catch'](function(){toast('Could not save that decision.','err');if(btn)btn.disabled=false;});
+}
+/* apply the effect of a redeemed reward — right now only the profile badge has a real effect to grant */
+function ptGrantReward(u,reward){
+  if(/badge/i.test(reward))fbPut('/profiles/'+encodeURIComponent(u)+'/hasBadge',true)['catch'](function(){});
 }
 
 /* =====================================================================
@@ -2103,6 +2273,54 @@ var AI_LOG=[];
 var AI_TURNS=[];
 var AI_BUSY=false;
 
+/* ---------- multiple saved AI chats, one per club member, Notion-style list ---------- */
+var AI_CHAT_ID=null;
+var AI_CHATS_CACHE={};
+var AI_SAVE_T=null;
+function aiChatsPath(){return '/ai_chats/'+encodeURIComponent(ME);}
+function aiChatTitleFrom(log){
+  for(var i=0;i<log.length;i++){if(log[i].role==='me'&&log[i].text)return String(log[i].text).slice(0,42);}
+  return 'New chat';
+}
+function loadAiChats(){
+  return fbGet(aiChatsPath()).then(function(o){AI_CHATS_CACHE=o||{};return AI_CHATS_CACHE;});
+}
+function aiChatList(){
+  return Object.keys(AI_CHATS_CACHE).map(function(k){var v=AI_CHATS_CACHE[k]||{};return {id:k,title:v.title||'New chat',updatedAt:v.updatedAt||0};}).sort(function(a,b){return b.updatedAt-a.updatedAt;});
+}
+function aiChatSaveNow(){
+  if(!AI_CHAT_ID)return;
+  var pinned=AI_CHATS_CACHE[AI_CHAT_ID]&&AI_CHATS_CACHE[AI_CHAT_ID].pinnedTitle;
+  var title=pinned?AI_CHATS_CACHE[AI_CHAT_ID].title:aiChatTitleFrom(AI_LOG);
+  var data={title:title,pinnedTitle:!!pinned,updatedAt:Date.now(),log:AI_LOG,turns:AI_TURNS};
+  AI_CHATS_CACHE[AI_CHAT_ID]=data;
+  fbPut(aiChatsPath()+'/'+AI_CHAT_ID,data);
+}
+function aiChatSave(){clearTimeout(AI_SAVE_T);AI_SAVE_T=setTimeout(aiChatSaveNow,1200);}
+function aiChatNew(){
+  return fbPost(aiChatsPath(),{title:'New chat',updatedAt:Date.now(),log:[],turns:[]}).then(function(r){
+    var id=r&&r.name;if(!id)return null;
+    AI_CHATS_CACHE[id]={title:'New chat',updatedAt:Date.now(),log:[],turns:[]};
+    return id;
+  });
+}
+function aiChatOpen(id){
+  AI_CHAT_ID=id;
+  var d=AI_CHATS_CACHE[id];
+  AI_LOG=(d&&d.log)?d.log.slice():[];
+  AI_TURNS=(d&&d.turns)?d.turns.slice():[];
+}
+function aiChatDelete(id,after){
+  fbDel(aiChatsPath()+'/'+id).then(function(){delete AI_CHATS_CACHE[id];if(after)after();});
+}
+function aiChatOpenOrNew(cb){
+  loadAiChats().then(function(){
+    var list=aiChatList();
+    if(list.length){aiChatOpen(list[0].id);cb&&cb(list[0].id);return;}
+    aiChatNew().then(function(id){if(id)aiChatOpen(id);cb&&cb(id);});
+  });
+}
+
 var AI_MODEL='llama-3.3-70b-versatile';       /* Groq free tier, supports tool calling */
 var AI_MODEL_OPENAI='gpt-4o-mini';
 var AI_MODEL_OR='meta-llama/llama-3.3-70b-instruct';
@@ -2216,6 +2434,50 @@ var AI_TOOLS=[
      });
    }},
 
+  {name:'add_todo',risk:'small',owner:false,
+   desc:'Add a to-do item to the user\u2019s own Private page.',
+   params:{text:{type:'STRING',description:'the to-do text'}},req:['text'],
+   run:function(a){
+     var v=String(a.text||'').trim().slice(0,200);
+     if(!v)return 'ERROR: the to-do text was empty.';
+     return fbPost(pvPath('todos'),{text:v,done:false,at:Date.now()}).then(function(r){return r?('Added to your to-do list: \u201C'+v+'\u201D.'):'ERROR: could not save that.';});
+   },
+   say:function(a){return 'Added a to-do: \u201C'+String(a.text||'')+'\u201D';}},
+
+  {name:'list_todos',risk:'read',owner:false,
+   desc:'List everything on the user\u2019s own Private to-do list.',
+   params:{},req:[],
+   run:function(){
+     return fbGet(pvPath('todos')).then(function(o){
+       o=o||{};
+       var keys=Object.keys(o);
+       if(!keys.length)return 'The to-do list is empty.';
+       return keys.map(function(k){var t=o[k]||{};return (t.done?'[done] ':'[ ] ')+(t.text||'');}).join('\n');
+     });
+   }},
+
+  {name:'add_note',risk:'small',owner:false,
+   desc:'Add a note to the user\u2019s own Private page.',
+   params:{text:{type:'STRING',description:'the note text'}},req:['text'],
+   run:function(a){
+     var v=String(a.text||'').trim().slice(0,500);
+     if(!v)return 'ERROR: the note text was empty.';
+     return fbPost(pvPath('notes'),{text:v,at:Date.now()}).then(function(r){return r?'Note saved.':'ERROR: could not save that.';});
+   },
+   say:function(a){return 'Saved a note';}},
+
+  {name:'list_notes',risk:'read',owner:false,
+   desc:'List everything on the user\u2019s own Private notes.',
+   params:{},req:[],
+   run:function(){
+     return fbGet(pvPath('notes')).then(function(o){
+       o=o||{};
+       var keys=Object.keys(o).sort(function(a,b){return (o[b].at||0)-(o[a].at||0);});
+       if(!keys.length)return 'There are no notes yet.';
+       return keys.map(function(k){return '\u2022 '+((o[k]||{}).text||'');}).join('\n');
+     });
+   }},
+
   {name:'add_game',risk:'big',owner:false,
    desc:'Write a brand new browser game and publish it to the games hub. The html must be one complete self-contained HTML file with all CSS and JavaScript inline, playable with a mouse and a keyboard.',
    params:{
@@ -2312,6 +2574,7 @@ function aiSystem(){
    +'You are talking to '+ME+(isOwner()?' , who is the owner and can do everything.':' , an ordinary member.')+' '
    +'You can actually change the app by calling the tools you have been given \u2014 always DO the task with a tool instead of explaining how to do it. '
    +'You have a search_web tool that searches Wikipedia \u2014 use it whenever the user asks about facts, current events, or anything you are not sure about. '
+   +'You also have add_todo/list_todos/add_note/list_notes tools for the user\u2019s own Private page \u2014 use them whenever they ask you to remember something, keep a list, or take notes for them. '
    +'When asked for a game, write the whole game yourself and call add_game with a complete single-file HTML document: inline CSS and JavaScript, no external files, no libraries, works on a phone and a computer, and it must be a maths game because this is a maths club. '
    +'Never invent a tool that is not in your list. If a tool result starts with ERROR, tell the user plainly what went wrong. '
    +'Keep replies short and friendly, one or two sentences, no markdown headings.';
@@ -2325,28 +2588,27 @@ function aiCall(){
   });
 }
 function aiErrorText(status,j){
-  var m=(j&&j.error&&(j.error.message||j.error))||'';m=String(m);
   var prov=aiProvider();
-  if(status===401||/invalid api key|no auth|unauthor|invalid_api_key/i.test(m)){
-    if(prov==='github')return 'GitHub rejected the token (401). Make sure you created a fine-grained token at github.com/settings/tokens?type=beta with the "Models" read permission. Classic tokens without scopes do not work for GitHub Models.';
-    return 'That key was rejected (401). Get a free key at console.groq.com/keys and paste it in the key box above.';
+  if(status===401||status===403){
+    if(prov==='github')return 'Matix can\u2019t connect with that GitHub key. Open the key box above, make sure the token has "Models" access turned on, and save it again.';
+    return 'Matix can\u2019t connect with that key. Open the key box above and try adding a fresh one.';
   }
-  if(status===403){
-    if(prov==='github')return 'GitHub refused access (403). The token needs the "Models" read permission — go to github.com/settings/tokens?type=beta, edit the token, and add Models read access.';
-    return 'Access was refused (403). '+(m||'The key may be restricted.');
-  }
-  if(status===404||(/model/i.test(m)&&/(decommission|not found|does not exist|retired)/i.test(m)))return 'The model this key uses is not available ("'+aiModel()+'"). Tell me and I will switch it.';
-  if(status===429)return 'The AI is rate-limiting you (429). The free tier resets in a few seconds \u2014 I will retry automatically.';
-  if(status>=500)return 'The AI service is having a problem right now (error '+status+'). Try again in a moment.';
-  return m||('Something went wrong (error '+status+').');
+  return 'Failed \u2014 please try restarting Matix and try again.';
 }
 
-function aiSend(text){
+function aiSend(text,files){
   if(AI_BUSY)return;
   if(!GEMINI_KEY){aiPush({role:'error',text:'No AI key yet. Open this tab as the owner and paste a free Groq key \u2014 get one at console.groq.com/keys.'});return;}
   AI_BUSY=true;
-  aiPush({role:'me',text:text});
-  AI_TURNS.push({role:'user',content:text});
+  var clean=(files||[]).filter(function(f){return f&&!f.skipped;});
+  aiPush({role:'me',text:text,files:(files&&files.length)?files:null});
+  var sendText=text;
+  if(clean.length){
+    sendText+='\n\n[The user attached '+clean.length+' file(s):]\n'+clean.map(function(f){
+      return '--- '+f.name+' ---\n'+f.content;
+    }).join('\n\n');
+  }
+  AI_TURNS.push({role:'user',content:sendText});
   aiPush({role:'think'});
   aiStep(0);
 }
@@ -2356,9 +2618,10 @@ function aiStep(depth,retried){
     var j=res.json||{};
     if(res.status!==200){
       if(res.status===429&&!retried){
-        if(aiNote)aiNote('The AI is busy \u2014 retrying in 8s\u2026');
+        /* stay quiet and just keep "thinking" — no need to show the user technical retry/rate-limit details */
         setTimeout(function(){aiStep(depth,true);},8000);return;
       }
+      console.warn('Matix AI request failed',res.status,j);
       aiDropThink();aiPush({role:'error',text:aiErrorText(res.status,j)});AI_BUSY=false;return;
     }
     var msg=(j.choices&&j.choices[0]&&j.choices[0].message)||null;
@@ -2370,7 +2633,7 @@ function aiStep(depth,retried){
     if(said&&said.trim()){aiDropThink();aiPush({role:'ai',text:said});aiPush({role:'think'});}
     aiRunCalls(calls,0,function(){aiStep(depth+1);});
   })['catch'](function(){
-    aiDropThink();aiPush({role:'error',text:'Could not reach the AI service at all. Check your internet connection.'});AI_BUSY=false;
+    aiDropThink();aiPush({role:'error',text:'Failed \u2014 please check your connection or try restarting Matix.'});AI_BUSY=false;
   });
 }
 function aiRunCalls(calls,i,done){
@@ -2394,6 +2657,7 @@ function aiRunCalls(calls,i,done){
       var bad=/^ERROR/.test(String(r));
       if(t.say&&!bad)aiNote(t.say(args),true);
       else if(bad)aiNote(String(r).replace(/^ERROR:\s*/,''),false);
+      if(!bad&&t.risk==='read'&&String(r).length>0)aiPush({role:'source',tool:name,text:String(r)});
       next(r);
     })['catch'](function(){next('ERROR: that failed while it was running.');});
   };
@@ -2418,19 +2682,45 @@ function aiBubbleText(s){
     .replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>')
     .replace(/\n/g,'<br>');
 }
+function aiSourceLabel(tool){
+  var m={search_web:'\uD83C\uDF10 Web search results',list_games:'\uD83C\uDFAE Games list',get_points:'\u2B50 Points lookup',who_am_i:'\uD83D\uDC64 Account info'};
+  return m[tool]||('\uD83D\uDCC4 '+tool);
+}
 function aiPaint(){
   var box=$('aiScroll');if(!box)return;
   box.innerHTML=AI_LOG.map(function(m){
     if(m.role==='think')return '<div class="ai-msg"><div class="av">\u2728</div><div class="ai-bub"><div class="ai-think"><i></i><i></i><i></i></div></div></div>';
     if(m.role==='act')return '<div class="ai-act'+(m.ok?'':' fail')+'"><span class="tick">'+(m.ok?'\u2713':'\u2715')+'</span><span>'+esc(m.text)+'</span></div>';
     if(m.role==='error')return '<div class="ai-act fail"><span class="tick">\u2715</span><span>'+esc(m.text)+'</span></div>';
+    if(m.role==='source')return '<details class="ai-src"><summary>'+esc(aiSourceLabel(m.tool))+'</summary><div class="ai-src-body">'+esc(m.text)+'</div></details>';
     var me=(m.role==='me');
+    var filesHtml='';
+    if(me&&m.files&&m.files.length){
+      filesHtml='<div class="ai-files">'+m.files.map(function(f){
+        return '<details class="ai-file"><summary>\uD83D\uDCCE '+esc(f.name)+'</summary><div class="ai-file-body">'+(f.skipped?'(not sent \u2014 too large or an image)':esc(f.content))+'</div></details>';
+      }).join('')+'</div>';
+    }
     return '<div class="ai-msg'+(me?' me':'')+'"><div class="av">'+(me?esc(initials(ME)):'\u2728')+'</div>'
-      +'<div class="ai-bub">'+aiBubbleText(m.text)+'</div></div>';
+      +'<div class="ai-bub">'+aiBubbleText(m.text)+filesHtml+'</div></div>';
   }).join('');
   box.scrollTop=box.scrollHeight;
+  aiChatSave();
 }
 
+var AI_PENDING_FILES=[];
+function aiReadFiles(fileList){
+  var arr=Array.prototype.slice.call(fileList||[]).slice(0,8);
+  return Promise.all(arr.map(function(f){
+    return new Promise(function(res){
+      var nm=f.webkitRelativePath||f.name;
+      if(/^image\//.test(f.type)||f.size>1500000){res({name:nm,content:'',skipped:true});return;}
+      var fr=new FileReader();
+      fr.onload=function(){res({name:nm,content:String(fr.result||'').slice(0,6000)});};
+      fr.onerror=function(){res({name:nm,content:'',skipped:true});};
+      fr.readAsText(f);
+    });
+  }));
+}
 var AI_CHIPS=[
   'Search the web for Pythagorean theorem',
   'Turn on dark mode',
@@ -2439,10 +2729,17 @@ var AI_CHIPS=[
   'Open the games hub',
   'Set the brightness to 80%'
 ];
-function renderAI(c){
+function renderAI(c,refId){
+  if(refId&&AI_CHAT_ID&&AI_CHAT_ID!==refId&&AI_BUSY){
+    c.innerHTML='<div class="empty" style="padding-top:120px"><div class="big">\u2728</div>Matix AI is still replying in another chat \u2014 give it a moment, then click back.<br><br><button class="btn" onclick="renderContent()">Try again</button></div>';
+    return;
+  }
+  if(refId&&AI_CHAT_ID!==refId)aiChatOpen(refId);
+  var chatTitle=(refId&&AI_CHATS_CACHE[refId]&&AI_CHATS_CACHE[refId].title)||'Matix AI';
   var h='<div class="wrap ai-wrap">'
-   +'<div class="ai-head"><div class="ai-orb">\u2728</div><div><b>Matix AI</b>'
-   +'<small>Ask anything \u2014 it can search the web and control the app.</small></div></div>';
+   +'<div class="ai-head"><div class="ai-orb">\u2728</div><div style="flex:1"><b>'+esc(chatTitle)+'</b>'
+   +'<small>Ask anything \u2014 it can search the web and control the app.</small></div>'
+   +'<button class="lnk" id="aiRenameBtn" title="Rename this chat">\u270F\uFE0F Rename</button></div>';
   if(!GEMINI_KEY){
     if(isOwner()){
       h+='<div class="ai-warn"><b>\U0001F511 Add the club AI key</b>'
@@ -2467,8 +2764,14 @@ function renderAI(c){
   if(!AI_LOG.length){
     h+='<div class="ai-chips">'+AI_CHIPS.map(function(t){return '<button class="ai-chip" data-chip="'+esc(t)+'">'+esc(t)+'</button>';}).join('')+'</div>';
   }
-  h+='<div class="ai-bar"><textarea id="aiInput" placeholder="Ask Matix AI to do something\u2026" rows="1"></textarea>'
-   +'<button class="btn" id="aiGo">Send</button></div></div>';
+  h+='<div class="ai-attach-row" id="aiAttachRow"></div>'
+   +'<div class="ai-bar"><button class="ai-ib" id="aiAttachBtn" type="button" title="Attach files">\uD83D\uDCCE</button>'
+   +'<button class="ai-ib" id="aiFolderBtn" type="button" title="Attach a folder">\uD83D\uDCC1</button>'
+   +'<textarea id="aiInput" placeholder="Ask Matix AI to do something\u2026" rows="1"></textarea>'
+   +'<button class="btn" id="aiGo">Send</button></div>'
+   +'<input type="file" id="aiFileIn" multiple style="display:none">'
+   +'<input type="file" id="aiFolderIn" webkitdirectory multiple style="display:none">'
+   +'</div>';
   c.innerHTML=h;
   aiPaint();
   var ghBtn=$('aiGhBtn');
@@ -2488,13 +2791,50 @@ function renderAI(c){
       aiClearKey();renderAI(c);
     },{icon:'\U0001F511',okText:'Remove key',danger:true});
   };
+  var rb=$('aiRenameBtn');
+  if(rb)rb.onclick=function(){
+    var cur=(AI_CHAT_ID&&AI_CHATS_CACHE[AI_CHAT_ID]&&AI_CHATS_CACHE[AI_CHAT_ID].title)||'New chat';
+    var v=prompt('Rename this chat:',cur);
+    if(v===null)return;
+    v=v.trim().slice(0,42)||'New chat';
+    if(AI_CHAT_ID){
+      AI_CHATS_CACHE[AI_CHAT_ID]=AI_CHATS_CACHE[AI_CHAT_ID]||{log:AI_LOG,turns:AI_TURNS};
+      AI_CHATS_CACHE[AI_CHAT_ID].title=v;AI_CHATS_CACHE[AI_CHAT_ID].pinnedTitle=true;
+      fbPut(aiChatsPath()+'/'+AI_CHAT_ID+'/title',v);
+      fbPut(aiChatsPath()+'/'+AI_CHAT_ID+'/pinnedTitle',true);
+    }
+    renderAI(c);
+  };
   var inp=$('aiInput');
+  function aiDrawAttachments(){
+    var row=$('aiAttachRow');if(!row)return;
+    row.innerHTML=AI_PENDING_FILES.map(function(f,i){
+      return '<span class="ai-attach-chip">'+(f.skipped?'\u26A0\uFE0F ':'\uD83D\uDCCE ')+esc(f.name)+'<button data-rm="'+i+'">\u2715</button></span>';
+    }).join('');
+    row.querySelectorAll('[data-rm]').forEach(function(b){
+      b.onclick=function(){AI_PENDING_FILES.splice(Number(b.getAttribute('data-rm')),1);aiDrawAttachments();};
+    });
+  }
+  var fileIn=$('aiFileIn'),folderIn=$('aiFolderIn');
+  var onPick=function(){
+    aiReadFiles(this.files).then(function(list){
+      AI_PENDING_FILES=AI_PENDING_FILES.concat(list).slice(0,8);
+      aiDrawAttachments();
+    });
+    this.value='';
+  };
+  if(fileIn)fileIn.onchange=onPick;
+  if(folderIn)folderIn.onchange=onPick;
+  var abtn=$('aiAttachBtn');if(abtn)abtn.onclick=function(){fileIn.click();};
+  var fbtn=$('aiFolderBtn');if(fbtn)fbtn.onclick=function(){folderIn.click();};
   var fire=function(){
     var v=(inp.value||'').trim();
-    if(!v||AI_BUSY)return;
+    if((!v&&!AI_PENDING_FILES.length)||AI_BUSY)return;
     inp.value='';inp.style.height='auto';
     var chips=c.querySelector('.ai-chips');if(chips)chips.remove();
-    aiSend(v);
+    var files=AI_PENDING_FILES.slice();
+    AI_PENDING_FILES=[];aiDrawAttachments();
+    aiSend(v||'(see attached files)',files);
   };
   $('aiGo').onclick=fire;
   inp.onkeydown=function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();fire();}};
@@ -2505,6 +2845,63 @@ function renderAI(c){
   inp.focus();
 }
 
+/* =====================================================================
+   PRIVATE  |  personal to-do list + notes, readable/writable by Matix AI
+   ===================================================================== */
+function pvPath(sub){return '/private/'+encodeURIComponent(ME)+'/'+sub;}
+function renderPrivate(c){
+  c.innerHTML='<div class="wrap"><div class="pv-head"><h2>\uD83D\uDD12 Private</h2><small>Only you \u2014 and Matix AI on your behalf \u2014 can see this.</small></div>'
+   +'<div class="pv-cols">'
+   +'<div class="pv-col"><div class="pv-colhead">\u2705 To-do</div><div class="pv-add"><input id="pvTodoIn" placeholder="Add a to-do\u2026" maxlength="200"><button class="btn" id="pvTodoAdd">Add</button></div><div id="pvTodoList" class="pv-list"></div></div>'
+   +'<div class="pv-col"><div class="pv-colhead">\uD83D\uDCDD Notes</div><div class="pv-add"><input id="pvNoteIn" placeholder="Add a note\u2026" maxlength="500"><button class="btn" id="pvNoteAdd">Add</button></div><div id="pvNoteList" class="pv-list"></div></div>'
+   +'</div></div>';
+  function loadTodos(){
+    fbGet(pvPath('todos')).then(function(o){
+      o=o||{};
+      var keys=Object.keys(o).sort(function(a,b){return (o[a].at||0)-(o[b].at||0);});
+      var w=$('pvTodoList');if(!w)return;
+      if(!keys.length){w.innerHTML='<div class="pv-empty">Nothing yet.</div>';return;}
+      w.innerHTML='';
+      keys.forEach(function(k){
+        var t=o[k]||{};
+        var row=el('div','pv-item'+(t.done?' done':''));
+        row.innerHTML='<label><input type="checkbox" '+(t.done?'checked':'')+'><span>'+esc(t.text||'')+'</span></label><button class="pv-del">\u2715</button>';
+        row.querySelector('input').onchange=function(e){fbPut(pvPath('todos')+'/'+k+'/done',e.target.checked).then(loadTodos);};
+        row.querySelector('.pv-del').onclick=function(){fbDel(pvPath('todos')+'/'+k).then(loadTodos);};
+        w.appendChild(row);
+      });
+    });
+  }
+  function loadNotes(){
+    fbGet(pvPath('notes')).then(function(o){
+      o=o||{};
+      var keys=Object.keys(o).sort(function(a,b){return (o[b].at||0)-(o[a].at||0);});
+      var w=$('pvNoteList');if(!w)return;
+      if(!keys.length){w.innerHTML='<div class="pv-empty">Nothing yet.</div>';return;}
+      w.innerHTML='';
+      keys.forEach(function(k){
+        var n=o[k]||{};
+        var row=el('div','pv-item');
+        row.innerHTML='<span>'+esc(n.text||'')+'</span><button class="pv-del">\u2715</button>';
+        row.querySelector('.pv-del').onclick=function(){fbDel(pvPath('notes')+'/'+k).then(loadNotes);};
+        w.appendChild(row);
+      });
+    });
+  }
+  $('pvTodoAdd').onclick=function(){
+    var v=($('pvTodoIn').value||'').trim();if(!v)return;
+    $('pvTodoIn').value='';
+    fbPost(pvPath('todos'),{text:v.slice(0,200),done:false,at:Date.now()}).then(loadTodos);
+  };
+  $('pvTodoIn').onkeydown=function(e){if(e.key==='Enter')$('pvTodoAdd').click();};
+  $('pvNoteAdd').onclick=function(){
+    var v=($('pvNoteIn').value||'').trim();if(!v)return;
+    $('pvNoteIn').value='';
+    fbPost(pvPath('notes'),{text:v.slice(0,500),at:Date.now()}).then(loadNotes);
+  };
+  $('pvNoteIn').onkeydown=function(e){if(e.key==='Enter')$('pvNoteAdd').click();};
+  loadTodos();loadNotes();
+}
 
 /* =====================================================================
    CLUB SITE PAGES  |  THEME CUSTOMISER  |  BANS  |  ONE-LIKE-PER-USER
@@ -2670,7 +3067,8 @@ function mcAvatar(u,online){
   var p=MC.profiles[u]||{};
   var inner=p.photo?('<img src="'+esc(p.photo)+'" alt="">'):(p.emoji?p.emoji:esc(mcName(u).charAt(0).toUpperCase()));
   var style=p.color?(' style="background:'+esc(p.color)+'"'):'';
-  return '<div class="mc-av"'+style+'>'+inner+(online?'<i class="mc-dot"></i>':'')+'</div>';
+  var av='<div class="mc-av"'+style+'>'+inner+(online?'<i class="mc-dot"></i>':'')+'</div>';
+  return p.hasBadge?('<span class="av-wrap">'+av+badgeHtml(true)+'</span>'):av;
 }
 function mcTime(ms){
   if(!ms)return '';
@@ -2694,8 +3092,187 @@ function mcPreview(m){
 function mcStop(){
   if(MC.poll){clearInterval(MC.poll);MC.poll=null;}
   if(MC.slow){clearInterval(MC.slow);MC.slow=null;}
+  callHangupIfActive();
 }
 function mcAlive(){return !!document.getElementById('mcList');}
+
+/* ---------- 1:1 calling (audio+video) via WebRTC, signalled over Firebase polling ---------- */
+var CALL={pc:null,local:null,remote:null,cid:null,who:null,role:null,status:'idle',camOn:true,micOn:true,seenIceKeys:{},startedAt:0,timerT:null};
+function callIcePath(cid,who){return '/calls/'+cid+'/ice_'+who;}
+function callOverlay(){
+  var o=$('callOv');
+  if(o)return o;
+  o=el('div','call-ov');o.id='callOv';o.style.display='none';
+  document.body.appendChild(o);
+  return o;
+}
+function callTeardownMedia(){
+  if(CALL.pc){try{CALL.pc.close();}catch(e){}CALL.pc=null;}
+  if(CALL.local){CALL.local.getTracks().forEach(function(t){try{t.stop();}catch(e){}});CALL.local=null;}
+  CALL.remote=null;
+  if(CALL.timerT){clearInterval(CALL.timerT);CALL.timerT=null;}
+}
+function callReset(){
+  callTeardownMedia();
+  CALL.cid=null;CALL.who=null;CALL.role=null;CALL.status='idle';CALL.seenIceKeys={};CALL.startedAt=0;CALL.camOn=true;CALL.micOn=true;
+  var o=$('callOv');if(o){o.style.display='none';o.innerHTML='';}
+}
+function callHangupIfActive(){
+  if(CALL.status==='idle')return;
+  var cid=CALL.cid;
+  callReset();
+  if(cid)fbPut('/calls/'+cid+'/status','ended').then(function(){fbDel('/calls/'+cid);});
+}
+function callDeclineOrHangup(){
+  if(CALL.status==='idle')return;
+  var cid=CALL.cid,wasRinging=CALL.status==='ringing-in';
+  callReset();
+  if(!cid)return;
+  if(wasRinging)fbPut('/calls/'+cid+'/status','declined');
+  else fbPut('/calls/'+cid+'/status','ended').then(function(){fbDel('/calls/'+cid);});
+}
+function callMakePC(u){
+  var pc=new RTCPeerConnection({iceServers:[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302']}]});
+  pc.onicecandidate=function(e){
+    if(e.candidate)fbPost(callIcePath(CALL.cid,ME),{c:JSON.stringify(e.candidate)});
+  };
+  pc.ontrack=function(e){
+    CALL.remote=e.streams[0];
+    var v=$('callRemoteVid');if(v)v.srcObject=CALL.remote;
+  };
+  pc.onconnectionstatechange=function(){
+    if(pc.connectionState==='connected'&&!CALL.startedAt){CALL.startedAt=Date.now();CALL.status='connected';callStartTimer();}
+  };
+  return pc;
+}
+function callStartTimer(){
+  callPaint();
+  if(CALL.timerT)clearInterval(CALL.timerT);
+  CALL.timerT=setInterval(callPaint,1000);
+}
+function callFmtDur(){
+  if(!CALL.startedAt)return '';
+  var s=Math.floor((Date.now()-CALL.startedAt)/1000);
+  var m=Math.floor(s/60);s=s%60;
+  return '  '+(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+}
+function callPaint(){
+  var o=callOverlay();o.style.display='flex';
+  var who=CALL.who;
+  var body;
+  if(CALL.status==='ringing-in'){
+    body='<div class="call-who">\uD83D\uDCDE Incoming call from '+esc(mcName(who))+'</div>'
+      +'<div class="call-btns">'
+      +'<button class="call-btn" id="callAcceptBtn" title="Accept">\u2705</button>'
+      +'<button class="call-btn hangup" id="callDeclineBtn" title="Decline">\u2715</button>'
+      +'</div>';
+  } else {
+    var title=CALL.status==='ringing-out'?('Calling '+esc(mcName(who))+'\u2026'):CALL.status==='connecting'?'Connecting\u2026':(esc(mcName(who))+callFmtDur());
+    body='<div class="call-remote"><video id="callRemoteVid" autoplay playsinline></video>'
+       +'<div class="call-local"><video id="callLocalVid" autoplay playsinline muted></video></div></div>'
+       +'<div class="call-who">'+title+'</div>'
+       +'<div class="call-btns">'
+       +'<button class="call-btn'+(CALL.micOn?'':' off')+'" id="callMicBtn" title="Mute/unmute">'+(CALL.micOn?'\uD83C\uDFA4':'\uD83D\uDD07')+'</button>'
+       +'<button class="call-btn'+(CALL.camOn?'':' off')+'" id="callCamBtn" title="Camera on/off">'+(CALL.camOn?'\uD83D\uDCF9':'\uD83D\uDCF7')+'</button>'
+       +'<button class="call-btn hangup" id="callHangBtn" title="Hang up">\u260E\uFE0F</button>'
+       +'</div>';
+  }
+  o.innerHTML=body;
+  var lv=$('callLocalVid');if(lv&&CALL.local)lv.srcObject=CALL.local;
+  var rv=$('callRemoteVid');if(rv&&CALL.remote)rv.srcObject=CALL.remote;
+  var ab=$('callAcceptBtn');if(ab)ab.onclick=callAccept;
+  var db=$('callDeclineBtn');if(db)db.onclick=callDeclineOrHangup;
+  var hb=$('callHangBtn');if(hb)hb.onclick=callDeclineOrHangup;
+  var mb=$('callMicBtn');if(mb)mb.onclick=function(){
+    CALL.micOn=!CALL.micOn;
+    if(CALL.local)CALL.local.getAudioTracks().forEach(function(t){t.enabled=CALL.micOn;});
+    callPaint();
+  };
+  var cb=$('callCamBtn');if(cb)cb.onclick=function(){
+    CALL.camOn=!CALL.camOn;
+    if(CALL.local)CALL.local.getVideoTracks().forEach(function(t){t.enabled=CALL.camOn;});
+    callPaint();
+  };
+}
+function callStart(u){
+  if(!u||CALL.status!=='idle')return;
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){toast('This device cannot make calls','err');return;}
+  CALL.who=u;CALL.cid=mcId(ME,u);CALL.role='caller';CALL.status='ringing-out';
+  callPaint();
+  navigator.mediaDevices.getUserMedia({audio:true,video:true}).then(function(stream){
+    CALL.local=stream;CALL.pc=callMakePC(u);
+    stream.getTracks().forEach(function(t){CALL.pc.addTrack(t,stream);});
+    callPaint();
+    return CALL.pc.createOffer().then(function(offer){return CALL.pc.setLocalDescription(offer).then(function(){return offer;});});
+  }).then(function(offer){
+    fbPut('/calls/'+CALL.cid,{from:ME,to:u,status:'ringing',offer:{sdp:offer.sdp,type:offer.type},at:Date.now()});
+    var myCid=CALL.cid;
+    setTimeout(function(){
+      if(CALL.cid===myCid&&CALL.status==='ringing-out'){
+        toast(mcName(u)+' didn\u2019t answer');
+        callReset();fbDel('/calls/'+myCid);
+      }
+    },30000);
+  }).catch(function(){
+    toast('Could not start the call \u2014 check camera/microphone permissions','err');
+    callReset();
+  });
+}
+function callAccept(){
+  if(!CALL.cid||!CALL.who)return;
+  var u=CALL.who,cid=CALL.cid;
+  navigator.mediaDevices.getUserMedia({audio:true,video:true}).then(function(stream){
+    CALL.local=stream;CALL.pc=callMakePC(u);
+    stream.getTracks().forEach(function(t){CALL.pc.addTrack(t,stream);});
+    CALL.status='connecting';callPaint();
+    return fbGet('/calls/'+cid+'/offer').then(function(offer){
+      return CALL.pc.setRemoteDescription(new RTCSessionDescription(offer));
+    }).then(function(){return CALL.pc.createAnswer();})
+     .then(function(answer){return CALL.pc.setLocalDescription(answer).then(function(){return answer;});});
+  }).then(function(answer){
+    fbPut('/calls/'+cid+'/answer',{sdp:answer.sdp,type:answer.type});
+    fbPut('/calls/'+cid+'/status','accepted');
+  }).catch(function(){
+    toast('Could not answer the call \u2014 check camera/microphone permissions','err');
+    callHangupIfActive();
+  });
+}
+function callPoll(){
+  var u=MC.who;if(!u)return;
+  var cid=mcId(ME,u);
+  fbGet('/calls/'+cid).then(function(call){
+    if(!call){if(CALL.status!=='idle'&&CALL.cid===cid)callReset();return;}
+    if(call.status==='ended'){
+      var was=CALL.status!=='idle'&&CALL.cid===cid;
+      if(was)callReset();
+      if(was||call.from===ME||call.to===ME)fbDel('/calls/'+cid);
+      return;
+    }
+    if(call.status==='declined'&&CALL.role==='caller'&&CALL.cid===cid){
+      toast(mcName(u)+' declined the call');
+      callReset();fbDel('/calls/'+cid);
+      return;
+    }
+    if(call.status==='ringing'&&call.from===u&&call.to===ME&&CALL.status==='idle'&&Date.now()-(call.at||0)<25000){
+      CALL.cid=cid;CALL.who=u;CALL.role='callee';CALL.status='ringing-in';
+      callPaint();
+    }
+    if(call.status==='accepted'&&CALL.role==='caller'&&CALL.cid===cid&&CALL.pc&&!CALL.pc.currentRemoteDescription&&call.answer){
+      CALL.pc.setRemoteDescription(new RTCSessionDescription(call.answer)).then(function(){CALL.status='connecting';callPaint();});
+    }
+    if(CALL.pc&&CALL.cid===cid){
+      fbGet(callIcePath(cid,u)).then(function(ic){
+        ic=ic||{};
+        Object.keys(ic).forEach(function(k){
+          if(CALL.seenIceKeys[k])return;
+          CALL.seenIceKeys[k]=true;
+          var rec=ic[k];if(!rec||!rec.c)return;
+          try{CALL.pc.addIceCandidate(new RTCIceCandidate(JSON.parse(rec.c)));}catch(e){}
+        });
+      });
+    }
+  });
+}
 
 function renderChat(c){
   mcStop();
@@ -2775,6 +3352,7 @@ function mcOpen(u){
    +'<button class="mc-back" id="mcBack">←</button>'
    +mcAvatar(u)
    +'<div style="min-width:0"><div class="mc-tn">'+esc(mcName(u))+mcBadge(u)+'</div><div class="mc-st" id="mcSt">@'+esc(u)+'</div></div>'
+   +'<button class="mc-callbtn" id="mcCallBtn" title="Start a call">📹</button>'
    +'</div>'
    +'<div class="mc-wrapmain">'
      +'<div class="mc-msgs" id="mcMsgs"><div class="u-loading" style="padding:30px">Loading messages…</div></div>'
@@ -2793,7 +3371,8 @@ function mcOpen(u){
        +'<button class="btn" id="mcSend">Send</button>'
      +'</div>'
    +'</div>';
-  var bk=$('mcBack');if(bk)bk.onclick=function(){MC.who=null;var r=$('mcRoot');if(r)r.classList.remove('conv');mcDrawList();};
+  var bk=$('mcBack');if(bk)bk.onclick=function(){mcStop();MC.who=null;var r=$('mcRoot');if(r)r.classList.remove('conv');mcDrawList();};
+  var cbtn=$('mcCallBtn');if(cbtn)cbtn.onclick=function(){callStart(u);};
   mcGrid('mcGridE',MC_EMOJI);mcGrid('mcGridS',MC_STICKERS);
   $('mcBE').onclick=function(){mcTogglePick('mcPickE');};
   $('mcBS').onclick=function(){mcTogglePick('mcPickS');};
@@ -2818,9 +3397,11 @@ function mcOpen(u){
   mcRead();
   mcPresence();
   mcStop();
+  callPoll();
   MC.poll=setInterval(function(){
     if(!mcAlive()||!MC.who){mcStop();return;}
     mcPull(false);
+    callPoll();
   },2500);
   MC.slow=setInterval(function(){
     if(!mcAlive()){mcStop();return;}

@@ -98,6 +98,17 @@ namespace MatixMathClub
                     Web.CoreWebView2.Navigate(args.Uri);
                 };
 
+                // Auto-grant camera/microphone so Math Chat calling works without
+                // WebView2's own permission bar getting in the way.
+                Web.CoreWebView2.PermissionRequested += (s, args) =>
+                {
+                    if (args.PermissionKind == CoreWebView2PermissionKind.Camera ||
+                        args.PermissionKind == CoreWebView2PermissionKind.Microphone)
+                    {
+                        args.State = CoreWebView2PermissionState.Allow;
+                    }
+                };
+
                 Web.CoreWebView2.ProcessFailed += (s, args) =>
                 {
                     ShowError("The app's browser engine stopped unexpectedly (" +

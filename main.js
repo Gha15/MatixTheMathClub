@@ -49,6 +49,11 @@ function createWindow() {
     return { action: 'deny' };
   });
 
+  // Allow camera/microphone so Math Chat calling works without an extra native prompt
+  win.webContents.session.setPermissionRequestHandler((webContents, permission, callback) => {
+    callback(permission === 'media');
+  });
+
   // Friendly message instead of a silent blank window
   win.webContents.on('render-process-gone', () => {
     dialog.showErrorBox('Matix stopped responding',
