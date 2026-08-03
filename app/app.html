@@ -2984,8 +2984,17 @@ function desktopBridge(){
 /* ---------- DESKTOP SHELL (custom window bar) ---------- */
 function initDesktop(){
   var D=desktopBridge();
-  if(!D)return;                       /* running in a normal browser — no custom bar */
-  document.body.classList.add('desktop');
+  var ua=(navigator.userAgent||'');
+  var looksElectron=/Electron/i.test(ua);
+  if(D||looksElectron)document.body.classList.add('desktop');
+  if(!D){
+    /* keep window buttons visible in Electron even if the preload bridge failed */
+    var fmn=$('tbMin'),fmx=$('tbMax'),fcl=$('tbClose');
+    if(fmn)fmn.onclick=function(){toast('Minimize is unavailable in this build','err');};
+    if(fmx)fmx.onclick=function(){toast('Maximize is unavailable in this build','err');};
+    if(fcl)fcl.onclick=function(){window.close();};
+    return;
+  }
   var tl=$('tbLogo');if(tl)tl.innerHTML=LOGO_SVG;
   var mn=$('tbMin'),mx=$('tbMax'),cl=$('tbClose');
   if(mn)mn.onclick=function(){D.minimize();};
