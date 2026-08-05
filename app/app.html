@@ -821,6 +821,65 @@ body.dark .mc-b.math{background:#232323}
 .lrn-shop{display:flex;gap:14px;align-items:center;border:2px solid var(--line);border-radius:16px;padding:16px;background:var(--card);margin-bottom:12px}
 .lrn-shop .si{font-size:36px}
 .lrn-buy{margin-left:auto;padding:11px 18px;border-radius:12px;border:0;border-bottom:4px solid rgba(0,0,0,.25);background:#1cb0f6;color:#fff;font-weight:900;cursor:pointer;white-space:nowrap}
+
+/* ================= SHOP, remade as a proper card grid ================= */
+.lrn-shop{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:14px;align-items:stretch;border:0;padding:0;background:none;margin:0}
+.sh-bal{display:flex;align-items:center;gap:14px;border:2px solid var(--line);border-radius:18px;padding:15px 18px;background:var(--card);margin:0 0 16px}
+.sh-bal .b1{display:flex;align-items:center;gap:9px;font-size:27px;font-weight:900;line-height:1}
+.sh-bal .b2{font-size:13px;opacity:.7;line-height:1.4}
+.sh-card{position:relative;display:flex;flex-direction:column;gap:11px;border:2px solid var(--line);border-radius:18px;padding:17px;background:var(--card);transition:transform .12s,box-shadow .12s,border-color .12s}
+.sh-card:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(0,0,0,.10);border-color:var(--nc,#1cb0f6)}
+.sh-ic{width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:29px;color:#fff;background:var(--nc,#1cb0f6);box-shadow:0 4px 0 rgba(0,0,0,.18)}
+.sh-card b{font-size:15.5px;line-height:1.3}
+.sh-card p{margin:0;font-size:13px;opacity:.72;line-height:1.45;flex:1}
+.sh-card .lrn-buy{margin:0;width:100%;display:flex;align-items:center;justify-content:center;gap:7px;background:var(--nc,#1cb0f6)}
+.sh-card .lrn-buy[disabled]{opacity:.45;cursor:not-allowed;filter:grayscale(.6)}
+.sh-tag{position:absolute;top:13px;right:13px;font-size:10px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;padding:4px 9px;border-radius:999px;background:#ffc800;color:#4a3a00}
+.sh-tag.on{background:#58cc02;color:#fff}
+
+/* ================= path nodes: several lessons per node ================= */
+.nd-ring{position:absolute;inset:-7px;border-radius:50%;pointer-events:none;-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 5px));mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 5px))}
+.lrn-node.legend{background:linear-gradient(160deg,#f9d14b,#e0a800);color:#fff;box-shadow:0 7px 0 #b58500}
+.nd-lv{position:absolute;bottom:-5px;right:-5px;background:#fff;color:#3c3c3c;border-radius:999px;font-size:10.5px;font-weight:900;padding:2px 7px;box-shadow:0 2px 6px rgba(0,0,0,.22);line-height:1.5}
+body.dark .nd-lv{background:#2a2a33;color:#eee}
+.lrn-legrow{margin-top:-8px}
+.lrn-legend{border:0;border-bottom:4px solid #b58500;background:linear-gradient(160deg,#f9d14b,#e0a800);color:#5a4200;font-weight:900;padding:9px 16px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;font-size:13px}
+
+/* ================= guidebook ================= */
+.lrn-guide{border:2px solid var(--line);border-radius:18px;background:var(--card);padding:18px;margin:0 0 16px}
+.lrn-guide h4{margin:0 0 4px;font-size:15.5px;display:flex;align-items:center;gap:8px}
+.lrn-guide .g-it{padding:13px 0 0;margin-top:13px;border-top:1px solid var(--line)}
+.lrn-guide .g-it b{font-size:14px}
+.lrn-guide .g-it p{margin:5px 0 0;font-size:13.5px;opacity:.78;line-height:1.55}
+.lrn-guide ul{margin:7px 0 0;padding-left:20px;font-size:13px;opacity:.8}
+
+/* ================= practice hub ================= */
+.lrn-prac{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px}
+.pr-card{display:flex;flex-direction:column;gap:9px;border:2px solid var(--line);border-radius:18px;padding:17px;background:var(--card);cursor:pointer;text-align:left;transition:transform .12s,border-color .12s}
+.pr-card:hover{transform:translateY(-3px);border-color:var(--nc,#1cb0f6)}
+.pr-card[disabled]{opacity:.5;cursor:not-allowed;transform:none}
+.pr-ic{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:25px;color:#fff;background:var(--nc,#1cb0f6)}
+.pr-card b{font-size:15px}
+.pr-card p{margin:0;font-size:12.5px;opacity:.72;line-height:1.45}
+
+/* ================= new question types ================= */
+.lq-match{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.lq-mcol{display:grid;gap:11px;align-content:start}
+.lq-mt{padding:15px 12px;border-radius:14px;border:2px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;font-size:15.5px;color:inherit;transition:transform .1s,border-color .1s}
+.lq-mt:hover{transform:translateY(-2px)}
+.lq-mt.sel{border-color:#1cb0f6;background:rgba(28,176,246,.14)}
+.lq-mt.pair{border-color:#1cb0f6;opacity:.55}
+.lq-mt.bad{border-color:#ff4b4b;background:rgba(255,75,75,.13)}
+.lq-mt.right{border-color:#58cc02;background:rgba(88,204,2,.14)}
+.lq-mt.wrong{border-color:#ff4b4b;background:rgba(255,75,75,.13)}
+.lq-mt[disabled]{cursor:default;transform:none}
+.lq-blank{display:flex;flex-wrap:wrap;gap:9px;align-items:center;justify-content:center;font-size:21px;font-weight:900;margin:4px 0 15px;line-height:2}
+.lq-gap{min-width:78px;padding:5px 13px;border:0;border-bottom:3px dashed var(--line);background:transparent;font:inherit;color:inherit;cursor:pointer;border-radius:6px}
+.lq-gap.f{border-bottom-style:solid;border-bottom-color:#1cb0f6;background:rgba(28,176,246,.10)}
+.lq-gap.right{border-bottom-color:#58cc02;background:rgba(88,204,2,.14)}
+.lq-gap.wrong{border-bottom-color:#ff4b4b;background:rgba(255,75,75,.13)}
+.lq-tag2{display:inline-flex;align-items:center;gap:6px;font-size:10.5px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;padding:4px 10px;border-radius:999px;background:rgba(28,176,246,.14);color:#1189c9;margin-bottom:9px}
+body.dark .lq-tag2{background:rgba(28,176,246,.20);color:#7fd0ff}
 .lrn-buy[disabled]{opacity:.45;cursor:not-allowed}
 .lrn-badge{text-align:center;border:2px solid var(--line);border-radius:16px;padding:16px;background:var(--card)}
 .lrn-badge .bi{font-size:44px;filter:grayscale(1);opacity:.32}
@@ -2337,6 +2396,11 @@ function loadRole(){if(!ME)return;fbGet('/roles/'+encodeURIComponent(ME)).then(f
    inside it is marked done.
    ===================================================================== */
 var LRN_MAXH=5, LRN_REGEN=1200000, LRN_XP_Q=10, LRN_PASS=80;
+var LRN_GROUP=3;   /* lessons packed into one node on the path, Duolingo style */
+/* the little pill shown above each question so you know what kind it is */
+var LRN_TYPE_LBL={mc:'Pick one',tf:'True or false',order:'Put in order',
+                  match:'Match the pairs',blank:'Fill the gap',multi:'Pick every right one',
+                  input:'Type the answer'};
 /* ---------- inline SVG icon set (replaces every emoji) ---------- */
 var LRN_SVG={
  star:'<path fill="currentColor" stroke="none" d="M12 2.5l2.9 5.9 6.5.95-4.7 4.6 1.1 6.5L12 17.4l-5.8 3.05 1.1-6.5-4.7-4.6 6.5-.95z"/>',
@@ -2404,7 +2468,7 @@ function lrnIco(n,cls){
 var LRN_COLORS=['#58cc02','#1cb0f6','#ce82ff','#ff9600','#ff4b4b','#ffc800',
                 '#2b70c9','#00cd9c','#a560e8','#ec4899','#14b8a6','#8b5cf6'];
 
-var LP={chapters:[],units:[],lessons:[],prog:{},tests:{},ctests:{},xp:0,xpday:{},gems:0,
+var LP={chapters:[],units:[],lessons:[],prog:{},tests:{},ctests:{},xp:0,xpday:{},gems:0,mistakes:[],legend:{},grpMap:{},
         hearts:{n:LRN_MAXH,at:Date.now()},streak:{count:0,last:'',freeze:0},badges:{},boost:0,
         quests:{},placed:false,members:[],fqAll:{},fqDone:0,
         loaded:false,view:'units',unit:null,edEx:[],edIcon:'',edColor:'#58cc02',host:null};
@@ -2445,7 +2509,8 @@ function lrnLoad(){
     fbGet('/learn/prog/'+u),fbGet('/learn/tests/'+u),fbGet('/learn/ctests/'+u),
     fbGet('/learn/xp/'+u),fbGet('/learn/xpday/'+u),fbGet('/learn/gems/'+u),
     fbGet('/learn/hearts/'+u),fbGet('/learn/streak/'+u),fbGet('/learn/badges/'+u),
-    fbGet('/learn/boost/'+u),fbGet('/learn/quests/'+u+'/'+d),fbGet('/learn/placed/'+u)
+    fbGet('/learn/boost/'+u),fbGet('/learn/quests/'+u+'/'+d),fbGet('/learn/placed/'+u),
+    fbGet('/learn/mistakes/'+u),fbGet('/learn/legend/'+u)
   ]).then(function(r){
     function list(o){
       var out=[];
@@ -2471,6 +2536,8 @@ function lrnLoad(){
     LP.boost=Number(r[12])||0;
     LP.quests=r[13]||{};
     LP.placed=!!r[14];
+    LP.mistakes=lrnArr(r[15]);
+    LP.legend=r[16]||{};
     LP.loaded=true;
   })['catch'](function(){LP.loaded=true;});
 }
@@ -2589,6 +2656,88 @@ function lrnAnyProgress(){
 }
 
 /* ---------- rewards ---------- */
+/* =====================================================================
+   PATH NODES  \u2014  Duolingo style, several lessons live inside one node
+   ===================================================================== */
+function lrnGroups(list){
+  var out=[];
+  for(var i=0;i<list.length;i+=LRN_GROUP)out.push(list.slice(i,i+LRN_GROUP));
+  return out;
+}
+function lrnGroupKey(g){return (g&&g.length)?g[0].id:'';}
+function lrnGroupCleared(g){
+  var n=0;
+  for(var i=0;i<g.length;i++)if(lrnLesCleared(g[i]))n++;
+  return n;
+}
+function lrnGroupDone(g){return g.length>0&&lrnGroupCleared(g)>=g.length;}
+function lrnGroupOpen(g){
+  for(var i=0;i<g.length;i++)if(lrnLessonOpen(g[i]))return true;
+  return false;
+}
+function lrnGroupNext(g){
+  for(var i=0;i<g.length;i++)if(!lrnLesCleared(g[i])&&lrnLessonOpen(g[i]))return g[i];
+  for(var j=0;j<g.length;j++)if(!lrnLesCleared(g[j]))return g[j];
+  return g[0];
+}
+function lrnGroupOf(key){
+  var ids=(LP.grpMap||{})[key]||[],out=[];
+  ids.forEach(function(id){var l=lrnLesson(id);if(l)out.push(l);});
+  return out;
+}
+function lrnIsLegend(g){return !!(LP.legend||{})[lrnGroupKey(g)];}
+function lrnSetLegend(g){
+  var k=lrnGroupKey(g);
+  if(!k)return Promise.resolve();
+  LP.legend=LP.legend||{};
+  LP.legend[k]=Date.now();
+  return fbPut('/learn/legend/'+lrnU()+'/'+k,LP.legend[k])['catch'](function(){});
+}
+/* the segmented ring around a node: one slice per lesson inside it */
+function lrnRing(n,doneN){
+  n=Math.max(1,n);
+  var seg=360/n,gap=(n>1?6:0),stops=[];
+  for(var i=0;i<n;i++){
+    var a0=i*seg,a1=(i+1)*seg-gap;
+    stops.push(((i<doneN)?'#ffc800':'rgba(0,0,0,.15)')+' '+a0+'deg '+a1+'deg');
+    if(gap)stops.push('transparent '+a1+'deg '+((i+1)*seg)+'deg');
+  }
+  return '<span class="nd-ring" style="background:conic-gradient(from -90deg,'+stops.join(',')+')"></span>';
+}
+function lrnOpenGroup(key){
+  var g=lrnGroupOf(key);
+  if(!g.length)return;
+  LQ_GROUP={key:key,ids:g.map(function(x){return x.id;})};
+  lrnOpenLesson(lrnGroupNext(g).id);
+}
+function lrnLegendRun(key){
+  var g=lrnGroupOf(key);
+  if(!g.length)return;
+  var ex=[];
+  g.forEach(function(l){ex=ex.concat(lrnExOf(l));});
+  if(ex.length<2){toast('Not enough questions for a legendary run yet.','err');return;}
+  customConfirm('<b>Legendary challenge</b><br>'+ex.length+' questions pulled from all '+g.length+
+    ' lessons in this node, and no hints. Get every single one right and the node turns gold.',
+    function(){
+      LQ_GROUP={key:key,ids:g.map(function(x){return x.id;})};
+      lrnRun(null,ex,'legend',key);
+    },{icon:'',okText:'Bring it on',html:true});
+}
+/* wrong answers are remembered so they can be practised later */
+function lrnMistake(e){
+  if(!e||!e.q)return;
+  var k=String(e.q);
+  LP.mistakes=lrnArr(LP.mistakes).filter(function(x){return x&&String(x.q)!==k;});
+  LP.mistakes.unshift(e);
+  if(LP.mistakes.length>40)LP.mistakes=LP.mistakes.slice(0,40);
+  try{fbPut('/learn/mistakes/'+lrnU(),LP.mistakes);}catch(err){}
+}
+function lrnClearMistake(e){
+  if(!e||!e.q)return;
+  var k=String(e.q);
+  LP.mistakes=lrnArr(LP.mistakes).filter(function(x){return x&&String(x.q)!==k;});
+  try{fbPut('/learn/mistakes/'+lrnU(),LP.mistakes);}catch(err){}
+}
 function lrnBumpStreak(){
   var today=lrnDay(0),y=lrnDay(1),s=LP.streak||{count:0,last:'',freeze:0};
   if(s.last===today)return Promise.resolve();
@@ -2630,6 +2779,7 @@ function lrnPaint(){
   var b=LP.host;
   b.innerHTML='';
   if(LP.view==='quests')return lrnViewQuests(b);
+  if(LP.view==='practice')return lrnViewPractice(b);
   if(LP.view==='friends')return lrnViewFriends(b);
   if(LP.view==='shop')return lrnViewShop(b);
   if(LP.view==='badges')return lrnViewBadges(b);
@@ -2647,7 +2797,8 @@ function lrnGo(v,unit){
 function lrnTopBar(){
   var hs=lrnHearts(),hh='';
   for(var i=0;i<LRN_MAXH;i++)hh+=lrnIco(i<hs?'heart':'heartOff','h'+(i<hs?' on':''));
-  var tabs=[['units','map','Learn'],['quests','target','Quests'],['friends','people','Friends'],
+  var tabs=[['units','map','Learn'],['practice','brain','Practice'],
+            ['quests','target','Quests'],['friends','people','Friends'],
             ['shop','cart','Shop'],['badges','medal','Badges'],['board','trophy','Board']];
   if(isOwner())tabs.push(['edit','pencil','Edit course']);
   var nav='',cur=(LP.view==='path')?'units':LP.view;
@@ -2849,6 +3000,7 @@ function lrnViewUnits(b){
 function lrnViewPath(b){
   var u=lrnUnit(LP.unit);
   if(!u){lrnGo('units',null);return;}
+  LP.grpMap={};
   var chaps=lrnUnitChaps(u.id),loose=lrnLooseLessons(u.id),
       ut=lrnTestOf(u),uSkipped=lrnUnitSkipped(u.id);
   var h='<button class="lrn-back" id="lrnBack">\u2190 All units</button>'+
@@ -2856,8 +3008,11 @@ function lrnViewPath(b){
     '<span class="ub-ic">'+lrnIco(u.icon||'book')+'</span>'+
     '<div style="flex:1;min-width:0"><b>'+esc(u.name||'Unit')+'</b>'+
     '<span>'+esc(u.desc||'')+(u.desc?' \u00B7 ':'')+lrnUnitPct(u.id)+'% done</span></div>'+
+    '<button class="lrn-skip" data-guide="'+u.id+'" title="Everything this unit teaches, in one place">'+
+      lrnIco('book')+' Guidebook</button>'+
     (!uSkipped&&ut.length?'<button class="lrn-skip" data-utest="'+u.id+'">'+lrnIco('bolt')+' Skip whole unit</button>':'')+
     '</div>';
+  if(LP.guide===u.id)h+=lrnGuideHtml(u);
 
   if(!chaps.length&&!loose.length){
     h+='<div class="lrn-empty">Nothing in this unit yet.'+
@@ -2869,19 +3024,36 @@ function lrnViewPath(b){
   }
 
   var n=0;
+  /* one node on the path now holds up to LRN_GROUP lessons, and the ring
+     around it fills up one slice at a time as you clear them */
   function nodes(list){
     var out='<div class="lrn-nodes">';
-    list.forEach(function(l){
-      var open=lrnLessonOpen(l),cr=lrnCrowns(l.id),cleared=lrnLesCleared(l);
-      var cls='lrn-node '+(open?(cleared?'done':'cur open'):'locked');
+    lrnGroups(list).forEach(function(g){
+      var key=lrnGroupKey(g);
+      LP.grpMap[key]=g.map(function(l){return l.id;});
+      var open=lrnGroupOpen(g),cl=lrnGroupCleared(g),full=lrnGroupDone(g),
+          legend=lrnIsLegend(g),lead=lrnGroupNext(g);
+      var cls='lrn-node '+(open?(full?(legend?'legend':'done'):'cur open'):'locked');
       var shift=[0,60,88,60,0,-60,-88,-60][n%8];n++;
+      var names=g.map(function(l){return String(l.title||'Lesson');});
+      var label=(g.length>1)?(names[0]+'  \u2192  '+names[names.length-1]):names[0];
       out+='<div class="lrn-row" style="transform:translateX('+shift+'px)">'+
-        '<button class="'+cls+'" '+(open?('data-les="'+l.id+'"'):'disabled')+
-        ' style="--nc:'+esc(l.color||u.color||'#58cc02')+'">'+
-        (open?lrnIco(l.icon||'star'):'')+
-        (cr?'<span class="lrn-crowns">'+(cr>=3?'':(''+cr))+'</span>':'')+'</button>'+
-        '<div class="lrn-lbl">'+esc(l.title||'Lesson')+
-        (open&&!cleared?'<span class="lrn-start">start here</span>':'')+'</div></div>';
+        '<button class="'+cls+'" '+(open?('data-grp="'+esc(key)+'"'):'disabled')+
+        ' style="--nc:'+esc(lead.color||u.color||'#58cc02')+'"'+
+        ' title="'+esc(names.join('  \u00B7  '))+'">'+
+        lrnRing(g.length,cl)+
+        (open?lrnIco(legend?'crown':(lead.icon||'star')):'')+
+        (g.length>1?'<span class="nd-lv">'+cl+'/'+g.length+'</span>':'')+
+        '</button>'+
+        '<div class="lrn-lbl">'+esc(label)+
+        '<span class="lrn-start">'+
+          (!open?'locked'
+            :full?(legend?'legendary':'all done \u00B7 tap to practise')
+            :(cl?(cl+' of '+g.length+' done \u00B7 keep going'):'start here'))+
+        '</span></div></div>';
+      if(open&&full&&!legend)
+        out+='<div class="lrn-row lrn-legrow"><button class="lrn-legend" data-leg="'+esc(key)+'">'+
+             lrnIco('crown')+' Legendary challenge</button></div>';
     });
     return out+'</div>';
   }
@@ -2935,8 +3107,37 @@ function lrnViewPath(b){
   b.innerHTML=h;
   document.getElementById('lrnBack').onclick=function(){lrnGo('units',null);};
   lrnWire(b,'data-les',function(id){lrnOpenLesson(id);});
+  lrnWire(b,'data-grp',function(k){lrnOpenGroup(k);});
+  lrnWire(b,'data-leg',function(k){lrnLegendRun(k);});
+  lrnWire(b,'data-guide',function(id){LP.guide=(LP.guide===id)?null:id;lrnPaint();});
   lrnWire(b,'data-utest',function(id){lrnUnitTest(id);});
   lrnWire(b,'data-ctest',function(id){lrnChapTest(id);});
+}
+
+/* ---------- the unit guidebook: every explanation in one place ---------- */
+function lrnGuideHtml(u){
+  var h='<div class="lrn-guide"><h4>'+lrnIco('book')+' Guidebook \u2014 '+esc(u.name||'Unit')+'</h4>'+
+    '<p class="lrn-sub" style="margin:0">Everything this unit teaches, so you can look things up '+
+    'without replaying a lesson.</p>';
+  var any=false;
+  lrnUnitChaps(u.id).forEach(function(c){
+    lrnChapLessons(c.id).forEach(function(l){
+      var how=String(l.howto||'').trim(),hints=lrnArr(l.hints);
+      if(!how&&!hints.length)return;
+      any=true;
+      h+='<div class="g-it"><b>'+lrnIco(l.icon||'star')+' '+esc(l.title||'Lesson')+'</b>'+
+        '<span class="lrn-sub" style="display:block;font-size:12px;opacity:.6">'+esc(c.name||'')+'</span>';
+      if(how)h+='<p>'+esc(how).replace(/\n/g,'<br>')+'</p>';
+      if(hints.length){
+        h+='<ul>';
+        hints.forEach(function(x){h+='<li>'+esc(x)+'</li>';});
+        h+='</ul>';
+      }
+      h+='</div>';
+    });
+  });
+  if(!any)h+='<div class="g-it"><p>No written explanations in this unit yet.</p></div>';
+  return h+'</div>';
 }
 
 /* =====================================================================
@@ -2944,6 +3145,7 @@ function lrnViewPath(b){
    ===================================================================== */
 var LQ={les:null,ex:[],i:0,right:0,wrong:0,mode:'lesson',target:null,
         sel:null,answered:false,order:[],pool:[],combo:0,done:0};
+var LQ_GROUP=null;   /* which path node we are working through */
 
 function lrnShuffle(a){
   a=a.slice();
@@ -2960,6 +3162,25 @@ function lrnRight(e,given){
   if(!e)return false;
   if(e.type==='order'){
     return lrnArr(e.steps).map(lrnNorm).join('||')===lrnArr(given).map(lrnNorm).join('||');
+  }
+  if(e.type==='match'){
+    var ps=lrnPairs(e),m=given||{};
+    if(!ps.length)return false;
+    for(var pi=0;pi<ps.length;pi++)
+      if(lrnNorm(m[ps[pi][0]])!==lrnNorm(ps[pi][1]))return false;
+    return true;
+  }
+  if(e.type==='blank'){
+    var w=String(e.answer==null?'':e.answer).split('|'),gv=given||[];
+    if(!w.length)return false;
+    for(var bi=0;bi<w.length;bi++)
+      if(lrnNorm(w[bi])!==lrnNorm(gv[bi]))return false;
+    return true;
+  }
+  if(e.type==='multi'){
+    var wm=String(e.answer||'').split('|').map(function(x){return lrnNorm(x);}).sort(),
+        gm=(given||[]).map(function(x){return lrnNorm(x);}).sort();
+    return wm.length>0&&wm.join('||')===gm.join('||');
   }
   var ok=String(e.answer==null?'':e.answer).split('|');
   for(var i=0;i<ok.length;i++)if(lrnNorm(ok[i])===lrnNorm(given))return true;
@@ -3018,6 +3239,8 @@ function lrnQ(){
   if(LQ.i>=LQ.ex.length){lrnFinish();return;}
   var e=LQ.ex[LQ.i],t=e.type||'input';
   LQ.sel=null;LQ.answered=false;LQ.order=[];
+  LQ.multi=[];LQ.gaps=null;LQ.bank=null;
+  LQ.mL=null;LQ.mR=null;LQ.mPair=null;LQ.mSel=null;LQ.mBad=null;
   var pct=Math.round(LQ.done/Math.max(1,LQ.total)*100);
   var hearts='';
   if(LQ.mode==='lesson'){
@@ -3027,13 +3250,17 @@ function lrnQ(){
   var title=(LQ.mode==='ctest')?' Chapter final test'
            :(LQ.mode==='utest')?' Unit test'
            :(LQ.mode==='place')?' Placement test'
+           :(LQ.mode==='legend')?' Legendary challenge'
+           :(LQ.mode==='practice')?' Practice'
            :esc((LQ.les&&LQ.les.title)||'Lesson');
   var body='<div class="lq"><div class="lq-bar-row">'+
     '<button class="lq-quit" id="lqX">'+lrnIco('cross')+'</button>'+
     '<div class="lq-bar"><div class="lq-fill" style="width:'+pct+'%"></div></div>'+
     (hearts?'<div class="lq-hearts" id="lqHB">'+hearts+'</div>':'')+'</div>'+
     '<div class="lq-q"><div class="lq-tag">'+title+' \u00B7 '+(LQ.done+1)+' of '+LQ.total+'</div>'+
-    '<div class="lq-prompt">'+esc(e.prompt||'Solve it')+'</div>'+lrnShown(e);
+    (LRN_TYPE_LBL[t]?'<div class="lq-tag2">'+LRN_TYPE_LBL[t]+'</div>':'')+
+    '<div class="lq-prompt">'+esc(e.prompt||'Solve it')+'</div>'+
+    ((t==='blank')?'':lrnShown(e));
   if(t==='mc'){
     body+='<div class="lq-choices">';
     lrnShuffle(lrnArr(e.choices)).forEach(function(ch){
@@ -3047,10 +3274,20 @@ function lrnQ(){
   }else if(t==='order'){
     body+='<div class="lq-slotwrap"><div class="lq-slot ph" id="lqSlot"></div>'+
            '<div class="lq-bank" id="lqBank"></div></div>';
+  }else if(t==='match'){
+    body+='<div class="lq-match" id="lqMatch"></div>';
+  }else if(t==='blank'){
+    body+='<div class="lq-blank" id="lqGaps"></div><div class="lq-bank" id="lqBank"></div>';
+  }else if(t==='multi'){
+    body+='<div class="lq-choices lq-multi">';
+    lrnShuffle(lrnArr(e.choices)).forEach(function(ch){
+      body+='<button class="lq-choice" data-m="'+esc(ch)+'">'+esc(ch)+'</button>';
+    });
+    body+='</div>';
   }else{
     body+='<input class="lq-in" id="lqIn" placeholder="Your answer" autocomplete="off">';
   }
-  if(e.hint)body+='<button class="lq-hintbtn" id="lqHint">'+lrnIco('bulb')+' Hint</button>'+
+  if(e.hint&&LQ.mode!=='legend')body+='<button class="lq-hintbtn" id="lqHint">'+lrnIco('bulb')+' Hint</button>'+
     '<div class="lq-hint" id="lqH" style="display:none">'+esc(e.hint)+'</div>';
   body+='</div><div class="lq-foot"><div class="lq-fb" id="lqFb"></div>'+
     '<div class="lq-foot-in"><button class="lq-go" id="lqGo">Check</button></div></div></div>';
@@ -3077,6 +3314,17 @@ function lrnQ(){
   }else if(t==='order'){
     LQ.pool=lrnShuffle(lrnArr(e.steps));
     lrnDrawOrder();
+  }else if(t==='match'){
+    lrnDrawMatch(e);
+  }else if(t==='blank'){
+    lrnDrawBlank(e);
+  }else if(t==='multi'){
+    lrnWire(b,'data-m',function(v,node){
+      if(LQ.answered)return;
+      var ix=LQ.multi.indexOf(v);
+      if(ix<0){LQ.multi.push(v);node.classList.add('sel');}
+      else{LQ.multi.splice(ix,1);node.classList.remove('sel');}
+    });
   }else{
     var inp=document.getElementById('lqIn');
     if(inp){
@@ -3085,6 +3333,113 @@ function lrnQ(){
     }
   }
   document.getElementById('lqGo').onclick=function(){lrnCheck(e);};
+}
+
+/* ---------- match the pairs ---------- */
+function lrnPairs(e){
+  var out=[];
+  lrnArr(e&&e.pairs).forEach(function(p){
+    if(p==null)return;
+    if(typeof p==='string'){
+      var ix=p.indexOf('=');
+      if(ix>0)out.push([p.slice(0,ix).trim(),p.slice(ix+1).trim()]);
+      return;
+    }
+    if(Object.prototype.toString.call(p)==='[object Array]'){
+      if(p.length>=2)out.push([String(p[0]),String(p[1])]);
+      return;
+    }
+    if(p.a!=null&&p.b!=null)out.push([String(p.a),String(p.b)]);
+  });
+  return out;
+}
+function lrnPairRight(e,l,r){
+  var ok=false;
+  lrnPairs(e).forEach(function(p){if(p[0]===l&&lrnNorm(p[1])===lrnNorm(r))ok=true;});
+  return ok;
+}
+function lrnDrawMatch(e){
+  var host=document.getElementById('lqMatch');
+  if(!host)return;
+  var ps=lrnPairs(e);
+  if(!LQ.mL){
+    LQ.mL=lrnShuffle(ps.map(function(p){return p[0];}));
+    LQ.mR=lrnShuffle(ps.map(function(p){return p[1];}));
+    LQ.mPair={};LQ.mSel=null;
+  }
+  var taken={},k;
+  for(k in LQ.mPair)if(LQ.mPair[k]!=null)taken[LQ.mPair[k]]=k;
+  var lh='';
+  LQ.mL.forEach(function(s,i){
+    var r=LQ.mPair[s],cls='lq-mt';
+    if(LQ.answered)cls+=(r!=null&&lrnPairRight(e,s,r))?' right':' wrong';
+    else if(LQ.mSel===s)cls+=' sel';
+    else if(r!=null)cls+=' pair';
+    lh+='<button class="'+cls+'" data-ml="'+i+'"'+(LQ.answered?' disabled':'')+'>'+
+        esc(s)+(r!=null?('  \u2192  '+esc(r)):'')+'</button>';
+  });
+  var rh='';
+  LQ.mR.forEach(function(s,i){
+    var used=taken[s]!=null;
+    rh+='<button class="lq-mt'+(used?' pair':'')+'" data-mr="'+i+'"'+
+        ((used||LQ.answered)?' disabled':'')+'>'+esc(s)+'</button>';
+  });
+  host.innerHTML='<div class="lq-mcol">'+lh+'</div><div class="lq-mcol">'+rh+'</div>';
+  if(LQ.answered)return;
+  lrnWire(host,'data-ml',function(i){
+    var s=LQ.mL[Number(i)];
+    if(LQ.mPair[s]!=null){delete LQ.mPair[s];LQ.mSel=null;}
+    else LQ.mSel=s;
+    lrnDrawMatch(e);
+  });
+  lrnWire(host,'data-mr',function(i){
+    if(LQ.mSel==null){toast('Tap one on the left first.','err');return;}
+    LQ.mPair[LQ.mSel]=LQ.mR[Number(i)];
+    LQ.mSel=null;
+    lrnDrawMatch(e);
+  });
+}
+
+/* ---------- fill in the gap from a word bank ---------- */
+function lrnBlankParts(e){
+  var parts=String((e&&e.q)||'').split('___');
+  if(parts.length===1)parts.push('');
+  return parts;
+}
+function lrnDrawBlank(e){
+  var g=document.getElementById('lqGaps'),bank=document.getElementById('lqBank');
+  if(!g||!bank)return;
+  var parts=lrnBlankParts(e),need=parts.length-1;
+  if(!LQ.gaps){
+    LQ.gaps=[];
+    LQ.bank=lrnShuffle(lrnArr(e.choices).map(function(x){return String(x);}));
+  }
+  var want=String(e.answer==null?'':e.answer).split('|');
+  var h='',i;
+  for(i=0;i<parts.length;i++){
+    h+='<span>'+esc(parts[i])+'</span>';
+    if(i<parts.length-1){
+      var v=LQ.gaps[i],cls='lq-gap'+(v!=null?' f':'');
+      if(LQ.answered)cls='lq-gap f'+((v!=null&&lrnNorm(v)===lrnNorm(want[i]))?' right':' wrong');
+      h+='<button class="'+cls+'" data-g="'+i+'"'+(LQ.answered?' disabled':'')+'>'+
+         (v!=null?esc(v):'&nbsp;&nbsp;&nbsp;')+'</button>';
+    }
+  }
+  g.innerHTML=h;
+  var used={};
+  for(i=0;i<need;i++){var gv=LQ.gaps[i];if(gv!=null)used[gv]=(used[gv]||0)+1;}
+  var bh='';
+  LQ.bank.forEach(function(s,ix){
+    if((used[s]||0)>0){used[s]--;return;}
+    bh+='<button class="lq-tile" data-bk="'+ix+'"'+(LQ.answered?' disabled':'')+'>'+esc(s)+'</button>';
+  });
+  bank.innerHTML=bh||'<span style="opacity:.6">all placed \u2014 hit Check</span>';
+  if(LQ.answered)return;
+  lrnWire(bank,'data-bk',function(ix){
+    for(var k2=0;k2<need;k2++)if(LQ.gaps[k2]==null){LQ.gaps[k2]=LQ.bank[Number(ix)];break;}
+    lrnDrawBlank(e);
+  });
+  lrnWire(g,'data-g',function(ix){LQ.gaps[Number(ix)]=null;lrnDrawBlank(e);});
 }
 
 /* ---------- tap the steps in order ---------- */
@@ -3124,6 +3479,19 @@ function lrnCheck(e){
   }else if(t==='order'){
     if(LQ.order.length<lrnArr(e.steps).length){toast('Place all the steps first.','err');return;}
     given=LQ.order;
+  }else if(t==='match'){
+    var ps0=lrnPairs(e),cnt=0,mk;
+    for(mk in (LQ.mPair||{}))if(LQ.mPair[mk]!=null)cnt++;
+    if(cnt<ps0.length){toast('Match them all first.','err');return;}
+    given=LQ.mPair;
+  }else if(t==='blank'){
+    var needn=lrnBlankParts(e).length-1;
+    for(var bi2=0;bi2<needn;bi2++)
+      if(!LQ.gaps||LQ.gaps[bi2]==null){toast('Fill every gap first.','err');return;}
+    given=LQ.gaps.slice(0,needn);
+  }else if(t==='multi'){
+    if(!LQ.multi.length){toast('Pick at least one answer.','err');return;}
+    given=LQ.multi;
   }else{
     var inp=document.getElementById('lqIn');
     given=inp?inp.value:'';
@@ -3137,9 +3505,13 @@ function lrnCheck(e){
     LQ.right++;LQ.combo++;
     if(LQ.combo>=3)lrnComboPop(LQ.combo);
     if(fb){fb.className='lq-fb ok';fb.innerHTML=' Nice one!';}
+    lrnClearMistake(e);
   }else{
     LQ.wrong++;LQ.combo=0;
+    lrnMistake(e);
     var right=(t==='order')?lrnArr(e.steps).join('  \u2192  ')
+             :(t==='match')?lrnPairs(e).map(function(p){return p[0]+' = '+p[1];}).join(',  ')
+             :(t==='blank'||t==='multi')?String(e.answer||'').split('|').join(',  ')
                            :String(e.answer||'').split('|')[0];
     if(fb){
       fb.className='lq-fb no';
@@ -3169,6 +3541,19 @@ function lrnCheck(e){
       if(lrnRight(e,v))ns[j].classList.add('right');
       else if(v===LQ.sel)ns[j].classList.add('wrong');
     }
+  }else if(t==='multi'){
+    var want=String(e.answer||'').split('|').map(function(x){return lrnNorm(x);}),
+        nm=document.querySelectorAll('[data-m]');
+    for(var jm=0;jm<nm.length;jm++){
+      var vm=nm[jm].getAttribute('data-m');
+      nm[jm].disabled=true;
+      if(want.indexOf(lrnNorm(vm))>=0)nm[jm].classList.add('right');
+      else if(LQ.multi.indexOf(vm)>=0)nm[jm].classList.add('wrong');
+    }
+  }else if(t==='match'){
+    lrnDrawMatch(e);
+  }else if(t==='blank'){
+    lrnDrawBlank(e);
   }else if(t==='order'){
     var slot=document.getElementById('lqSlot');
     if(slot)slot.className='lq-slot '+(ok?'right':'wrong');
@@ -3211,8 +3596,20 @@ function lrnFinish(){
   var xp=LQ.right*LRN_XP_Q;
   if(perfect)xp+=20;
   if(mode==='ctest'||mode==='utest')xp=Math.round(xp*1.5);
+  if(mode==='legend')xp=Math.round(xp*2);
   if(lrnBoosted())xp*=2;
   var gems=perfect?3:1;
+  if(mode==='legend'&&perfect)gems+=5;
+
+  /* is there another lesson still waiting inside this path node? */
+  var gNext=null;
+  if(mode==='lesson'&&pass&&LQ_GROUP){
+    var gg=lrnGroupOf(LQ_GROUP.key);
+    for(var gi=0;gi<gg.length;gi++){
+      if(LQ.les&&gg[gi].id===LQ.les.id)continue;
+      if(!lrnLesCleared(gg[gi])){gNext=gg[gi];break;}
+    }
+  }
 
   var jobs=[lrnAddXp(xp),lrnAddGems(gems),lrnBumpStreak()],
       head,sub,icon;
@@ -3275,10 +3672,13 @@ function lrnFinish(){
     '<div class="lrn-stat a"><b>+'+xp+'</b><span>XP'+(lrnBoosted()?' (x2)':'')+'</span></div>'+
     '<div class="lrn-stat g"><b>+'+gems+'</b><span>gems</span></div></div>'+
     '<div class="lrn-endb">'+
+    (gNext?'<button class="lrn-buy" id="lrnNextLes">Next lesson in this node \u2192</button>':'')+
     ((mode==='lesson')?'<button class="lrn-mini" id="lrnAgain">Practise again</button>':'')+
     ((!pass&&(mode==='ctest'||mode==='utest'))?'<button class="lrn-mini" id="lrnAgain">Try the test again</button>':'')+
     '<button class="lrn-buy" id="lrnBk">'+(LP.unit?'Back to the map':'Back to my units')+'</button></div></div>';
 
+  var nextLes=document.getElementById('lrnNextLes');
+  if(nextLes)nextLes.onclick=function(){lrnOpenLesson(gNext.id);};
   var again=document.getElementById('lrnAgain');
   if(again)again.onclick=function(){
     if(mode==='lesson'&&LQ.les)lrnRun(LQ.les,lrnExOf(LQ.les),'lesson',LQ.target);
@@ -3522,23 +3922,84 @@ function lrnFriendBump(xp){
 
 /* ---------- shop ---------- */
 var LRN_SHOP=[
-  {id:'hearts',icon:'heart',name:'Refill hearts',cost:50,desc:'Straight back to 5 hearts.'},
-  {id:'boost', icon:'bolt',name:'XP doubler',    cost:30,desc:'Double XP for the next 15 minutes.'},
-  {id:'freeze',icon:'snow',name:'Streak freeze',cost:40,desc:'Miss a day without losing your streak.'},
-  {id:'box',   icon:'gift',name:'Mystery box',  cost:20,desc:'Could be gems, could be a doubler.'}
+  {id:'hearts',icon:'heart',color:'#ff4b4b',name:'Refill hearts',cost:50,
+   desc:'Straight back to five hearts so you can keep going right now.'},
+  {id:'boost', icon:'bolt', color:'#ffc800',name:'XP doubler',cost:30,
+   desc:'Every bit of XP you earn is doubled for the next 15 minutes.'},
+  {id:'freeze',icon:'snow', color:'#1cb0f6',name:'Streak freeze',cost:40,
+   desc:'Miss a whole day and your streak survives anyway. Sits there until you need it.'},
+  {id:'box',   icon:'gift', color:'#ce82ff',name:'Mystery box',cost:20,
+   desc:'Somewhere between 5 and 30 gems, and sometimes a half hour XP doubler instead.'}
 ];
 function lrnViewShop(b){
+  var boosted=lrnBoosted(),
+      frozen=!!(LP.streak&&LP.streak.freeze),
+      full=lrnHearts()>=LRN_MAXH;
   var h='<h3 class="lrn-h">'+lrnIco('cart')+' Shop</h3>'+
-    '<p class="lrn-sub">You have <b>'+LP.gems+' '+lrnIco('gem')+'</b>. Earn more from quests and perfect lessons.</p>'+
+    '<div class="sh-bal"><div class="b1">'+lrnIco('gem')+LP.gems+'</div>'+
+    '<div class="b2">gems in your pocket<br>Earn more from daily quests, perfect lessons and legendary nodes.</div></div>'+
     '<div class="lrn-shop">';
   LRN_SHOP.forEach(function(s){
-    var can=LP.gems>=s.cost;
-    h+='<div class="si"><div class="qi">'+lrnIco(s.icon)+'</div>'+
-      '<div style="flex:1;min-width:0"><b>'+s.name+'</b><p>'+s.desc+'</p></div>'+
-      '<button class="lrn-buy"'+(can?(' data-buy="'+s.id+'"'):' disabled')+'>'+s.cost+' '+lrnIco('gem')+'</button></div>';
+    var can=LP.gems>=s.cost,tag='',off=false;
+    if(s.id==='hearts'&&full){tag='<span class="sh-tag on">already full</span>';off=true;}
+    else if(s.id==='boost'&&boosted){tag='<span class="sh-tag on">running</span>';off=true;}
+    else if(s.id==='freeze'&&frozen){tag='<span class="sh-tag on">ready</span>';off=true;}
+    else if(!can)tag='<span class="sh-tag">'+(s.cost-LP.gems)+' more</span>';
+    h+='<div class="sh-card" style="--nc:'+esc(s.color||'#1cb0f6')+'">'+tag+
+      '<div class="sh-ic">'+lrnIco(s.icon)+'</div>'+
+      '<b>'+esc(s.name)+'</b><p>'+esc(s.desc)+'</p>'+
+      '<button class="lrn-buy"'+((can&&!off)?(' data-buy="'+s.id+'"'):' disabled')+'>'+
+      (off?'Already yours':(lrnIco('gem')+' '+s.cost))+'</button></div>';
   });
   b.innerHTML=h+'</div>';
   lrnWire(b,'data-buy',function(id){lrnBuy(id);});
+}
+
+/* =====================================================================
+   PRACTICE HUB  \u2014  no hearts at stake, mistakes get their own drill
+   ===================================================================== */
+function lrnViewPractice(b){
+  var mis=lrnArr(LP.mistakes),all=[];
+  lrnArr(LP.lessons).forEach(function(l){
+    if(lrnLesCleared(l))all=all.concat(lrnExOf(l));
+  });
+  var h='<h3 class="lrn-h">'+lrnIco('brain')+' Practice</h3>'+
+    '<p class="lrn-sub">Nothing here costs a heart, so drill as much as you like. '+
+    'Questions come back around based on what you got wrong and how long ago you saw it.</p>'+
+    '<div class="lrn-prac">'+
+    '<button class="pr-card" style="--nc:#ff4b4b" '+(mis.length?'data-pr="mistakes"':'disabled')+'>'+
+      '<div class="pr-ic">'+lrnIco('heartOff')+'</div><b>My mistakes</b><p>'+
+      (mis.length?(mis.length+' question'+(mis.length===1?'':'s')+' you slipped up on. Get one right and it leaves the list.')
+                 :'Empty \u2014 you have not missed anything yet. Nice.')+'</p></button>'+
+    '<button class="pr-card" style="--nc:#1cb0f6" '+(all.length?'data-pr="mix"':'disabled')+'>'+
+      '<div class="pr-ic">'+lrnIco('sparkle')+'</div><b>Quick mix</b><p>'+
+      (all.length?'Ten random questions pulled from every lesson you have finished.'
+                 :'Finish a lesson first and this opens up.')+'</p></button>'+
+    '<button class="pr-card" style="--nc:#ffc800" '+(all.length?'data-pr="long"':'disabled')+'>'+
+      '<div class="pr-ic">'+lrnIco('bolt')+'</div><b>Marathon</b><p>'+
+      (all.length?'Twenty five questions in a row. Big XP if you survive it.'
+                 :'Finish a lesson first and this opens up.')+'</p></button>'+
+    '<button class="pr-card" style="--nc:#ce82ff" '+(all.length?'data-pr="hard"':'disabled')+'>'+
+      '<div class="pr-ic">'+lrnIco('brain')+'</div><b>Tricky only</b><p>'+
+      (all.length?'Just the question types that make people think: ordering, matching and gaps.'
+                 :'Finish a lesson first and this opens up.')+'</p></button>'+
+    '</div>';
+  b.innerHTML=h;
+  lrnWire(b,'data-pr',function(kind){
+    var pick;
+    if(kind==='mistakes')pick=lrnShuffle(mis);
+    else if(kind==='hard'){
+      pick=lrnShuffle(all.filter(function(e){
+        var t=(e&&e.type)||'input';
+        return t==='order'||t==='match'||t==='blank'||t==='multi';
+      })).slice(0,12);
+      if(!pick.length){toast('No tricky questions in your finished lessons yet.','err');return;}
+    }
+    else pick=lrnShuffle(all).slice(0,(kind==='long')?25:10);
+    if(!pick.length){toast('Nothing to practise yet.','err');return;}
+    LQ_GROUP=null;
+    lrnRun(null,pick,'practice',null);
+  });
 }
 function lrnBuy(id){
   var item=null;
@@ -4033,21 +4494,35 @@ function lrnExBox(){
         '<option value="input"'+(t==='input'?' selected':'')+'>Type the answer (solve equation)</option>'+
         '<option value="mc"'+(t==='mc'?' selected':'')+'>Multiple choice</option>'+
         '<option value="tf"'+(t==='tf'?' selected':'')+'>True / False</option>'+
-        '<option value="order"'+(t==='order'?' selected':'')+'>Tap the steps in order</option></select></label>'+
+        '<option value="order"'+(t==='order'?' selected':'')+'>Tap the steps in order</option>'+
+        '<option value="match"'+(t==='match'?' selected':'')+'>Match the pairs</option>'+
+        '<option value="blank"'+(t==='blank'?' selected':'')+'>Fill in the gap</option>'+
+        '<option value="multi"'+(t==='multi'?' selected':'')+'>Pick every right answer</option></select></label>'+
       '<label class="lrn-f"><span>Instruction on top</span>'+
       '<input data-f="prompt" data-i="'+i+'" value="'+esc(e.prompt||'Solve it')+'"></label></div>'+
       '<label class="lrn-f"><span>The question or equation</span>'+
       '<input data-f="q" data-i="'+i+'" value="'+esc(e.q||'')+'" placeholder="x + 5 = 12"></label>';
-    if(t==='mc')
-      h+='<label class="lrn-f"><span>Choices \u2014 separate with |</span>'+
+    if(t==='mc'||t==='multi'||t==='blank')
+      h+='<label class="lrn-f"><span>'+
+         (t==='blank'?'Word bank \u2014 separate with | (put ___ in the question where the gap goes)'
+                     :'Choices \u2014 separate with |')+'</span>'+
          '<input data-f="choices" data-i="'+i+'" value="'+esc(lrnArr(e.choices).join('|'))+'" placeholder="5|7|12|17"></label>';
     if(t==='order'){
       h+='<label class="lrn-f"><span>The steps in the CORRECT order \u2014 separate with |</span>'+
          '<input data-f="steps" data-i="'+i+'" value="'+esc(lrnArr(e.steps).join('|'))+'" '+
          'placeholder="x + 5 = 12|x = 12 - 5|x = 7"></label>';
+    }else if(t==='match'){
+      h+='<label class="lrn-f"><span>The pairs \u2014 write them as left=right, separate with |</span>'+
+         '<input data-f="pairs" data-i="'+i+'" value="'+
+         esc(lrnPairs(e).map(function(p){return p[0]+'='+p[1];}).join('|'))+'" '+
+         'placeholder="6 \u00D7 7=42|8 \u00D7 9=72|5 \u00D7 6=30"></label>'+
+         '<label class="lrn-f"><span>Explanation if they get it wrong (optional)</span>'+
+         '<input data-f="why" data-i="'+i+'" value="'+esc(e.why||'')+'"></label>';
     }else{
       h+='<div class="lrn-row2"><label class="lrn-f"><span>Correct answer'+
-        (t==='input'?' (use | for other accepted forms)':'')+'</span>'+
+        (t==='input'?' (use | for other accepted forms)'
+         :t==='multi'?' \u2014 list every right one, separate with |'
+         :t==='blank'?' \u2014 one answer per gap, separate with |':'')+'</span>'+
         (t==='tf'
           ? '<select data-f="answer" data-i="'+i+'"><option value="true"'+(lrnNorm(e.answer)==='true'?' selected':'')+'>True</option>'+
             '<option value="false"'+(lrnNorm(e.answer)==='false'?' selected':'')+'>False</option></select>'
@@ -4080,7 +4555,7 @@ function lrnExBox(){
   var add=document.getElementById('lAdd');
   if(add)add.onclick=function(){
     lrnExPull();
-    LP.edEx.push({type:'input',prompt:'Solve it',q:'',answer:'',hint:'',why:'',choices:[],steps:[]});
+    LP.edEx.push({type:'input',prompt:'Solve it',q:'',answer:'',hint:'',why:'',choices:[],steps:[],pairs:[]});
     lrnExBox();
   };
   var ai=document.getElementById('lAi');
@@ -4092,7 +4567,7 @@ function lrnExPull(){
   for(var i=0;i<fs.length;i++){
     var f=fs[i],idx=Number(f.getAttribute('data-i')),key=f.getAttribute('data-f');
     if(!LP.edEx[idx])continue;
-    if(key==='choices'||key==='steps'){
+    if(key==='choices'||key==='steps'||key==='pairs'){
       LP.edEx[idx][key]=f.value.split('|').map(function(x){return x.trim();})
                         .filter(function(x){return x;});
     }else LP.edEx[idx][key]=f.value;
@@ -4104,14 +4579,34 @@ function lrnExPull(){
    ===================================================================== */
 function lrnAiJson(prompt,maxTok){
   if(!GEMINI_KEY)return Promise.reject(new Error('nokey'));
-  var h={'Content-Type':'application/json','Authorization':'Bearer '+GEMINI_KEY};
-  if(aiProvider()==='openrouter'){h['HTTP-Referer']='https://matixthemathclub.com';h['X-Title']='Matix';}
-  return fetch(aiEndpoint(),{method:'POST',headers:h,body:JSON.stringify({
-    model:aiModel(),messages:[{role:'user',content:prompt}],
-    temperature:0.3,max_tokens:maxTok||2200
-  })}).then(function(r){return r.json();}).then(function(j){
+  var prov=aiProvider(),h={'Content-Type':'application/json'},payload;
+  if(prov==='gemini'){
+    /* Gemini speaks its own dialect: key in a header, contents instead of messages */
+    h['x-goog-api-key']=GEMINI_KEY;
+    payload={contents:[{role:'user',parts:[{text:prompt}]}],
+             generationConfig:{temperature:0.3,maxOutputTokens:maxTok||2200}};
+  }else{
+    h['Authorization']='Bearer '+GEMINI_KEY;
+    if(prov==='openrouter'){h['HTTP-Referer']='https://matixthemathclub.com';h['X-Title']='Matix';}
+    payload={model:aiModel(),messages:[{role:'user',content:prompt}],
+             temperature:0.3,max_tokens:maxTok||2200};
+  }
+  return fetch(aiEndpoint(),{method:'POST',headers:h,body:JSON.stringify(payload)})
+    .then(function(r){
+      return r.json()['catch'](function(){return {};}).then(function(j){
+        if(r.status!==200)throw new Error('HTTP '+r.status+' \u2014 '+String((j&&j.error&&j.error.message)||'no details given').slice(0,200));
+        return j;
+      });
+    },function(e){throw new Error('Network error: '+String((e&&e.message)||e));})
+    .then(function(j){
     var txt='';
-    try{txt=j.choices[0].message.content||'';}catch(e){txt='';}
+    if(prov==='gemini'){
+      try{
+        (j.candidates[0].content.parts||[]).forEach(function(p){if(p&&p.text)txt+=p.text;});
+      }catch(e){txt='';}
+    }else{
+      try{txt=j.choices[0].message.content||'';}catch(e){txt='';}
+    }
     if(!txt)throw new Error('empty');
     txt=txt.replace(/```json/gi,'').replace(/```/g,'').trim();
     var a=txt.indexOf('{'),b=txt.lastIndexOf('}');
@@ -4121,7 +4616,7 @@ function lrnAiJson(prompt,maxTok){
 }
 function lrnAiEx(){
   if(!GEMINI_KEY){
-    customConfirm('The AI needs a key first. Open the  Matix AI tab and paste a free Groq key, then come back.',
+    customConfirm('The AI needs a key first. Open the Matix AI tab and paste a free Gemini key (it starts with AIza \u2014 get one at aistudio.google.com/apikey), then come back.',
       function(){},{icon:'',alertOnly:true,okText:'Got it'});
     return;
   }
@@ -4978,12 +5473,21 @@ function openProfileModal(){
 /* =====================================================================
    MATIX AI  \u2014  Gemini with real tools
 
-   PASTE YOUR GEMINI API KEY BETWEEN THE QUOTES ON THE NEXT LINE.
-   Get one free at https://console.groq.com/keys
+   Supports Gemini (keys starting AIza\u2026 or AQ.\u2026), Groq (gsk_\u2026), OpenAI, OpenRouter and GitHub Models.
+   Get a free Gemini key at https://aistudio.google.com/apikey
    Anyone who opens this app can read this key. Keep it on the free tier.
    ===================================================================== */
 var GEMINI_KEY='';   /* never hardcode a key here — GitHub blocks the push. Set it in the AI tab. */
-var GEMINI_MODEL='gemini-2.0-flash-lite';
+var GEMINI_MODEL='gemini-2.0-flash';   /* supports function calling */
+/* Google retires model names without warning, so keep a fallback ladder.
+   If one name 404s we quietly move to the next and retry the same request. */
+var GEM_MODELS=['gemini-2.0-flash','gemini-2.5-flash','gemini-flash-latest','gemini-1.5-flash-latest','gemini-pro-latest'];
+var GEM_MI=0;
+function aiGemNextModel(){if(GEM_MI<GEM_MODELS.length-1){GEM_MI++;return true;}return false;}
+function aiGemModelMissing(status,j){
+  var m=String((j&&j.error&&j.error.message)||'');
+  return status===404||/not found|is not supported|unsupported|does not exist|deprecat/i.test(m);
+}
 var AI_KEY_PATH='/config/geminiKey';
 var AI_KEY_LS='matix_gemini_key';
 function aiKeyLocal(){try{return localStorage.getItem(AI_KEY_LS)||'';}catch(e){return '';}}
@@ -4992,11 +5496,16 @@ function aiLoadKey(){
   GEMINI_KEY=aiKeyLocal();
   return fbGet(AI_KEY_PATH).then(function(v){
     var k=(typeof v==='string')?v:(v&&v.key)||'';
-    if(k){GEMINI_KEY=k;aiKeySetLocal(k);}
+    /* a key saved on this device always wins, so an old key still sitting in the
+       database can never overwrite the fresh one you just pasted */
+    if(k&&!GEMINI_KEY){GEMINI_KEY=k;aiKeySetLocal(k);}
+    if(GEMINI_KEY&&k!==GEMINI_KEY)fbPut(AI_KEY_PATH,GEMINI_KEY)['catch'](function(){});
     return GEMINI_KEY;
   }).catch(function(){return GEMINI_KEY;});
 }
 function aiSaveKey(k,cb){
+  k=String(k||'').trim();
+  GEM_MI=0;
   GEMINI_KEY=k;aiKeySetLocal(k);
   fbPut(AI_KEY_PATH,k).then(function(){toast('Key saved — the whole club can use Matix AI now');if(cb)cb(true);})
    .catch(function(){toast('Saved on this device only','err');if(cb)cb(false);});
@@ -5062,8 +5571,11 @@ var AI_MODEL='llama-3.3-70b-versatile';       /* Groq free tier, supports tool c
 var AI_MODEL_OPENAI='gpt-4o-mini';
 var AI_MODEL_OR='meta-llama/llama-3.3-70b-instruct';
 var AI_MODEL_GITHUB='gpt-4o-mini';
+var AI_MODEL_GEMINI='gemini-2.0-flash';
 function aiProvider(){
   var k=(GEMINI_KEY||'').trim();
+  if(k.indexOf('AIza')===0)return 'gemini';          /* classic Google AI Studio key */
+  if(k.indexOf('AQ.')===0)return 'gemini';           /* newer Google AI Studio key format */
   if(k.indexOf('gsk_')===0)return 'groq';
   if(k.indexOf('sk-or-')===0)return 'openrouter';
   if(k.indexOf('sk-')===0)return 'openai';
@@ -5072,6 +5584,9 @@ function aiProvider(){
 }
 function aiEndpoint(){
   var p=aiProvider();
+  /* the key goes in the query string as well as the header: some networks and
+     Electron builds drop custom headers, and Google accepts either one */
+  if(p==='gemini')return 'https://generativelanguage.googleapis.com/v1beta/models/'+aiModel()+':generateContent?key='+encodeURIComponent((GEMINI_KEY||'').trim());
   if(p==='openrouter')return 'https://openrouter.ai/api/v1/chat/completions';
   if(p==='openai')return 'https://api.openai.com/v1/chat/completions';
   if(p==='github')return 'https://models.inference.ai.azure.com/chat/completions';
@@ -5079,6 +5594,7 @@ function aiEndpoint(){
 }
 function aiModel(){
   var p=aiProvider();
+  if(p==='gemini')return GEM_MODELS[GEM_MI]||GEMINI_MODEL||AI_MODEL_GEMINI;
   if(p==='openrouter')return AI_MODEL_OR;
   if(p==='openai')return AI_MODEL_OPENAI;
   if(p==='github')return AI_MODEL_GITHUB;
@@ -5316,7 +5832,88 @@ function aiSystem(){
    +'Never invent a tool that is not in your list. If a tool result starts with ERROR, tell the user plainly what went wrong. '
    +'Keep replies short and friendly, one or two sentences, no markdown headings.';
 }
+/* =====================================================================
+   GEMINI ADAPTER
+   Google's API is not OpenAI-shaped, so we translate both ways:
+   messages -> contents, tool_calls -> functionCall, and back again.
+   Everything above and below keeps speaking OpenAI format.
+   ===================================================================== */
+function aiGemDecls(){
+  return AI_TOOLS.map(function(t){
+    var props={},any=false;
+    for(var k in t.params){
+      var p=t.params[k]||{};
+      props[k]={type:String(p.type||'string').toUpperCase(),description:p.description||''};
+      any=true;
+    }
+    var d={name:t.name,description:t.desc||''};
+    /* Gemini rejects an empty properties block, so only send it when there are params */
+    if(any)d.parameters={type:'OBJECT',properties:props,required:t.req||[]};
+    return d;
+  });
+}
+function aiGemContents(){
+  var out=[];
+  AI_TURNS.forEach(function(m){
+    if(!m)return;
+    if(m.role==='user'){out.push({role:'user',parts:[{text:String(m.content||'')}]});return;}
+    if(m.role==='tool'){
+      /* a tool result goes back as a user-side functionResponse */
+      out.push({role:'user',parts:[{functionResponse:{name:m.name||'tool',
+        response:{result:String(m.content==null?'':m.content)}}}]});
+      return;
+    }
+    var parts=[];
+    if(m.content&&String(m.content).trim())parts.push({text:String(m.content)});
+    (m.tool_calls||[]).forEach(function(c){
+      var fc=(c&&c.function)||{},a={};
+      try{a=JSON.parse(fc.arguments||'{}');}catch(e){a={};}
+      parts.push({functionCall:{name:fc.name,args:a}});
+    });
+    if(!parts.length)parts.push({text:''});
+    out.push({role:'model',parts:parts});
+  });
+  return out;
+}
+function aiGemToOpenai(j){
+  var c=(j&&j.candidates&&j.candidates[0])||null;
+  var parts=(c&&c.content&&c.content.parts)||[];
+  var text='',calls=[];
+  parts.forEach(function(p,i){
+    if(!p)return;
+    if(p.text)text+=p.text;
+    if(p.functionCall)calls.push({id:'gcall_'+i+'_'+Date.now(),type:'function',
+      function:{name:p.functionCall.name,arguments:JSON.stringify(p.functionCall.args||{})}});
+  });
+  var msg={role:'assistant',content:text};
+  if(calls.length)msg.tool_calls=calls;
+  return {choices:[{message:msg}]};
+}
 function aiCall(strict){
+  if(aiProvider()==='gemini'){
+    var gd=aiGemDecls();
+    var mkBody=function(){
+      var b={systemInstruction:{parts:[{text:aiSystem()}]},
+             contents:aiGemContents(),
+             generationConfig:{temperature:(strict?0:0.3),maxOutputTokens:8192}};
+      if(gd.length)b.tools=[{functionDeclarations:gd}];
+      return b;
+    };
+    var shot=function(){
+      return fetch(aiEndpoint(),{method:'POST',
+        headers:{'Content-Type':'application/json','x-goog-api-key':(GEMINI_KEY||'').trim()},
+        body:JSON.stringify(mkBody())}).then(function(r){
+        return r.json()['catch'](function(){return {};}).then(function(j){
+          if(r.status!==200&&aiGemModelMissing(r.status,j)&&aiGemNextModel()){
+            console.warn('Matix AI: that Gemini model is gone, retrying with '+aiModel());
+            return shot();
+          }
+          return {status:r.status,json:(r.status===200?aiGemToOpenai(j):j)};
+        });
+      });
+    };
+    return shot();
+  }
   var body={model:aiModel(),messages:[{role:'system',content:aiSystem()}].concat(AI_TURNS),tools:aiDeclarations(),tool_choice:'auto',temperature:(strict?0:0.3),max_tokens:8192};
   var h={'Content-Type':'application/json','Authorization':'Bearer '+(GEMINI_KEY||'')};
   if(aiProvider()==='openrouter'){h['HTTP-Referer']='https://matixthemathclub.com';h['X-Title']='Matix';}
@@ -5330,9 +5927,36 @@ function aiToolFail(j){
   var m=String(e.message||'');
   return /failed to call a function|failed_generation|tool call|tool_use_failed/i.test(m);
 }
+/* pull the real reason out of the provider's reply so nobody has to guess */
+function aiWhy(j){
+  var e=(j&&j.error)||{};
+  var m=String(e.message||e.status||'');
+  return m?(' The AI service said: \u201C'+m.slice(0,220)+'\u201D'):'';
+}
+/* one tiny live request, used by the "test it" button next to the key */
+function aiKeyTest(){
+  if(!GEMINI_KEY)return Promise.resolve('<b>No key is saved yet.</b> Paste one in the box first.');
+  var prov=aiProvider();
+  return lrnAiJson('Reply with only this JSON and nothing else: {"ok":true}',40).then(function(){
+    return '<b>\u2705 The key works.</b><br>Provider: <code>'+esc(prov)+'</code><br>Model: <code>'+esc(aiModel())+'</code>';
+  })['catch'](function(e){
+    var msg=String((e&&e.message)||e||'unknown');
+    var tip='';
+    if(/HTTP 400/.test(msg))tip='Usually this means the key text is wrong \u2014 copy it again from aistudio.google.com/apikey with no spaces.';
+    else if(/HTTP 403/.test(msg))tip='The key exists but the Generative Language API is not enabled for it, or the key is restricted. Make a brand new key in Google AI Studio.';
+    else if(/HTTP 404/.test(msg))tip='The model name is not available to this key. Matix already tries newer names automatically \u2014 restart the app and test again.';
+    else if(/HTTP 429/.test(msg))tip='You hit the free daily limit. Wait a bit and try again.';
+    else if(/Network/i.test(msg))tip='The request never left the app \u2014 check the internet connection or whatever is blocking google APIs.';
+    return '<b>\u274C The key did not work.</b><br>Provider: <code>'+esc(prov)+'</code><br>Model: <code>'+esc(aiModel())+
+           '</code><br>Reason: <code>'+esc(msg)+'</code>'+(tip?('<br><br>'+esc(tip)):'');
+  });
+}
 function aiErrorText(status,j){
   var prov=aiProvider();
+  if(prov==='gemini'&&status&&status!==401&&status!==403&&!(status===400&&aiToolFail(j)))
+    return 'Gemini turned that request down (HTTP '+status+').'+aiWhy(j)+' Model in use: '+aiModel()+'. Use \u201Ctest it\u201D next to the key for a plain-language check.';
   if(status===401||status===403){
+    if(prov==='gemini')return 'Matix can\u2019t connect with that Gemini key.'+aiWhy(j)+' Open the key box above, make a fresh key at aistudio.google.com/apikey, and save it again.';
     if(prov==='github')return 'Matix can\u2019t connect with that GitHub key. Open the key box above, make sure the token has "Models" access turned on, and save it again.';
     return 'Matix can\u2019t connect with that key. Open the key box above and try adding a fresh one.';
   }
@@ -5342,7 +5966,7 @@ function aiErrorText(status,j){
 
 function aiSend(text,files){
   if(AI_BUSY)return;
-  if(!GEMINI_KEY){aiPush({role:'error',text:'No AI key yet. Open this tab as the owner and paste a free Groq key \u2014 get one at console.groq.com/keys.'});return;}
+  if(!GEMINI_KEY){aiPush({role:'error',text:'No AI key yet. Open this tab as the owner and paste a free Gemini key \u2014 get one at aistudio.google.com/apikey.'});return;}
   AI_BUSY=true;
   var clean=(files||[]).filter(function(f){return f&&!f.skipped;});
   aiPush({role:'me',text:text,files:(files&&files.length)?files:null});
@@ -5380,8 +6004,9 @@ function aiStep(depth,retried,tf){
     if(!calls.length){aiDropThink();aiPush({role:'ai',text:said||'(nothing to say)'});AI_BUSY=false;return;}
     if(said&&said.trim()){aiDropThink();aiPush({role:'ai',text:said});aiPush({role:'think'});}
     aiRunCalls(calls,0,function(){aiStep(depth+1);});
-  })['catch'](function(){
-    aiDropThink();aiPush({role:'error',text:'Failed \u2014 please check your connection or try restarting Matix.'});AI_BUSY=false;
+  })['catch'](function(e){
+    console.warn('Matix AI network error',e);
+    aiDropThink();aiPush({role:'error',text:'Failed \u2014 the request never reached the AI ('+String((e&&e.message)||e)+'). Check the internet, and on Gemini make sure nothing is blocking generativelanguage.googleapis.com.'});AI_BUSY=false;
   });
 }
 function aiRunCalls(calls,i,done){
@@ -5492,10 +6117,11 @@ function renderAI(c,refId){
     if(isOwner()){
       h+='<div class="ai-warn"><b>\U0001F511 Add the club AI key</b>'
        +'Paste a key below \u2014 stored in the database, not app.html, so every member gets AI without a rebuild.<br><br>'
-       +'<b>Option A \u2014 Groq (easiest, free):</b> sign up at <code>console.groq.com/keys</code>, create an API key (starts with <code>gsk_</code>), paste it.<br>'
-       +'<b>Option B \u2014 GitHub Models (free):</b> create a fine-grained token at github.com/settings/tokens?type=beta, enable the <b>Models read</b> permission, copy the token (starts with <code>github_pat_</code>).'
+       +'<b>Option A \u2014 Google Gemini (free):</b> go to <code>aistudio.google.com/apikey</code>, click <b>Create API key</b>, copy it (it starts with <code>AIza</code> or <code>AQ.</code> \u2014 both work), paste it.<br>'
+       +'<b>Option B \u2014 Groq (free):</b> sign up at <code>console.groq.com/keys</code>, create an API key (starts with <code>gsk_</code>), paste it.<br>'
+       +'<b>Option C \u2014 GitHub Models (free):</b> create a fine-grained token at github.com/settings/tokens?type=beta, enable the <b>Models read</b> permission, copy the token (starts with <code>github_pat_</code>).'
        +'<div class="ai-keyrow">'
-       +'<input id="aiKeyIn" type="password" placeholder="Paste key here (gsk_… or github_pat_…)\u2026" autocomplete="off">'
+       +'<input id="aiKeyIn" type="password" placeholder="Paste key here (AIza\u2026, AQ.\u2026, gsk_\u2026 or github_pat_\u2026)" autocomplete="off">'
        +'<button class="btn ghost" id="aiGhBtn">\uD83D\uDC19 GitHub</button>'
        +'<button class="btn" id="aiKeySave">Save</button>'
        +'</div></div>';
@@ -5505,8 +6131,8 @@ function renderAI(c,refId){
     }
   } else if(isOwner()){
     var prov=aiProvider();
-    var provLabel={groq:'Groq',openai:'OpenAI',openrouter:'OpenRouter',github:'GitHub Models'}[prov]||prov;
-    h+='<div class="ai-keyok">\U0001F511 Club AI key is set ('+esc(provLabel)+' / '+esc(aiModel())+'). <button class="lnk" id="aiKeyEdit">change or remove</button></div>';
+    var provLabel={gemini:'Google Gemini',groq:'Groq',openai:'OpenAI',openrouter:'OpenRouter',github:'GitHub Models'}[prov]||prov;
+    h+='<div class="ai-keyok">\U0001F511 Club AI key is set ('+esc(provLabel)+' / '+esc(aiModel())+'). <button class="lnk" id="aiKeyTest">test it</button> \u00B7 <button class="lnk" id="aiKeyEdit">change or remove</button></div>';
   }
   h+='<div class="ai-scroll" id="aiScroll"></div>';
   if(!AI_LOG.length){
@@ -5532,6 +6158,14 @@ function renderAI(c,refId){
     var v=($('aiKeyIn').value||'').trim();
     if(v.length<20){toast('That does not look like a valid key','err');return;}
     aiSaveKey(v,function(){renderAI(c);});
+  };
+  var ktb=$('aiKeyTest');
+  if(ktb)ktb.onclick=function(){
+    var old=ktb.textContent;ktb.textContent='testing\u2026';
+    aiKeyTest().then(function(m){
+      ktb.textContent=old;
+      customConfirm(m,function(){},{alertOnly:true,okText:'OK',html:true});
+    });
   };
   var ke=$('aiKeyEdit');
   if(ke)ke.onclick=function(){
