@@ -6,6 +6,7 @@
   "author": "Matix the Math Club",
   "main": "main.js",
   "scripts": {
+    "live": "node start-server.js",
     "start": "electron .",
     "dist:win": "electron-builder --win",
     "dist:mac": "electron-builder --mac",
@@ -30,7 +31,9 @@
       "build/icon.*"
     ],
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "icon": "build/icon.ico",
       "artifactName": "matix-installer.${ext}"
     },
@@ -47,7 +50,12 @@
     },
     "mac": {
       "target": [
-        { "target": "dmg", "arch": ["universal"] }
+        {
+          "target": "dmg",
+          "arch": [
+            "universal"
+          ]
+        }
       ],
       "icon": "build/icon.png",
       "category": "public.app-category.education",
@@ -57,5 +65,16 @@
       "title": "Install Matix",
       "artifactName": "matix-installer.${ext}"
     }
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gha15/MatixTheMathClub.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Gha15/MatixTheMathClub/issues"
+  },
+  "homepage": "https://github.com/Gha15/MatixTheMathClub#readme"
 }
